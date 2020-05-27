@@ -1,8 +1,8 @@
 
-Title: Movielens
-Author: Monica Bustamante
-Date: May/27/2020
-Output: PDF_Document
+#Title:  Movielens
+#Author: Monica Bustamante
+#Date:   May/27/2020
+#Output: R Script
 
 
 #INSTALL PACKAGES AND LIBRARIES
@@ -79,7 +79,7 @@ rm(dl, ratings, movies, test_index, temp, movielens, removed)
 #validation dataset
 validation  <- validation %>% select(-rating)
 
-How many rows and columns are there in the edx dataset?
+#How many rows and columns are there in the edx dataset?
   
 #To see more information about the dataset
 head(edx, 5)
@@ -106,8 +106,6 @@ edx %>% summarise(
 rating_mean <- mean(edx$rating)
 rating_mean
 
-How many zeros were given as ratings in the edx dataset?
-  
   
 #How many zeros were given as ratings in the edx dataset.
 paste(sum(edx$rating == 0), 'ratings and',
@@ -116,16 +114,13 @@ paste(sum(edx$rating == 0), 'ratings and',
 
 edx %>% filter(rating == 3) %>% tally()
 
-How many different movies are in the edx dataset?
-  
+
 #How many different movies are in the edx dataset
 n_distinct(edx$movieId)
 
 edx %>% summarize(n_movies = n_distinct(movieId))
 
-How many different users are in the edx dataset?
-  
-#How many different users are in the edx dataset. n_distinct or lenght
+#How many different users are in the edx dataset? n_distinct or lenght
 n_distinct(edx$userId)
 
 
@@ -133,9 +128,7 @@ n_distinct(edx$userId)
 edx %>% summarize(n_users = n_distinct(userId))
 
 
-How many movie ratings are in each of the following genres in the edx dataset?
-  
-
+#How many movie ratings are in each of the following genres in the edx dataset?
 # str_detect
 genres = c("Drama", "Comedy", "Thriller", "Romance")
 sapply(genres, function(g) {
@@ -167,15 +160,14 @@ paste('Thriller has',nrow(thriller),'movies')
 romance <- edx %>% filter(str_detect(genres,"Romance"))
 paste('Romance has',nrow(romance),'movies')
 
-Which movie has the greatest number of ratings?
+#Which movie has the greatest number of ratings?
   
 #Greatest number of ratings. Arrange rows by variables
 edx %>% group_by(title) %>% 
 summarise(number = n()) %>% 
 arrange(desc(number))
 
-What are the five most given ratings in order from most to least?
-  
+#What are the five most given ratings in order from most to least?
 #Sort a variable in descending order.
 edx %>% group_by(rating) %>% 
 summarize(count = n()) %>% 
@@ -189,7 +181,7 @@ hist(edx$rating)
 summary(edx$rating)
 
 
-True or False: In general, half star ratings are less common than whole star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.).
+#True or False: In general, half star ratings are less common than whole star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.).
 #Rating movies
 rating4 <- table(edx$rating)["4"]
 rating35 <- table(edx$rating)["3.5"]
@@ -210,9 +202,8 @@ edx %>%
   geom_line()
 
 
-Predicted movie ratings and calculates RMSE.
-Movie rating predictions will be compared to the true ratings in the validation set using RMSE
-
+#Predicted movie ratings and calculates RMSE.
+#Movie rating predictions will be compared to the true ratings in the validation set using RMSE
 
 data <- movies %>% separate_rows(genres, sep ="\\|")
 DAT.aggregate <- aggregate(formula = cbind(n = 1:nrow(dat)) ~ genres, data = data, FUN = length)
@@ -284,13 +275,11 @@ lambda <- lambdas[which.min(rmses)]
 paste('RMSE',min(rmses),'Lambda',lambda)
 
 
-CONCLUSION:
+#CONCLUSION:
 
-  Predict a list of rated movies.
-
-Discovered patterns: as people prefer movies with a medium to high rating. (3 to 5).
-
-The movies preferred by the customers was the end of the 1980 and 1990 periods.
+#Predict a list of rated movies.
+#Discovered patterns: as people prefer movies with a medium to high rating. (3 to 5).
+#The movies preferred by the customers was the end of the 1980 and 1990 periods.
   
 
 
