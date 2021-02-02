@@ -151,11 +151,11 @@ edx %>% summarize(n_users = n_distinct(userId))
 
 genres <- c("Drama", "Comedy", "Thriller", "Romance")
 genresCounts <- sapply(genres, function(g){
-    movies %>% filter(str_detect(genres, g)) %>% tally()
+    edx %>% filter(str_detect(genres, g)) %>% tally()
 })
           
 # separate_rows, much slower!
-movies %>% separate_rows(genres, sep = "\\|") %>%
+edx %>% separate_rows(genres, sep = "\\|") %>%
     group_by(genres) %>%
     summarize(count = n()) %>%
     arrange(desc(count))
@@ -164,16 +164,16 @@ movies %>% separate_rows(genres, sep = "\\|") %>%
 #Rating by category
 ```{r MovielensCapstone, echo=FALSE}
 
-drama <- data %>% filter(str_detect(genres,"Drama"))
+drama <- edx %>% filter(str_detect(genres,"Drama"))
 paste('Drama',nrow(drama),'movies')
 
-comedy <- data %>% filter(str_detect(genres,"Comedy"))
+comedy <- edx %>% filter(str_detect(genres,"Comedy"))
 paste('Comedy',nrow(comedy),'movies')
 
-thriller <- data %>% filter(str_detect(genres,"Thriller"))
+thriller <- edx %>% filter(str_detect(genres,"Thriller"))
 paste('Thriller',nrow(thriller),'movies')
 
-romance <- data %>% filter(str_detect(genres,"Romance"))
+romance <- edx %>% filter(str_detect(genres,"Romance"))
 paste('Romance',nrow(romance),'movies')
 
 rm(drama, comedy, thriller, romance)
