@@ -11,7 +11,7 @@ output: pdf_document
 df <- "MovieLens.RData"
 if(!file.exists("MovieLens.RData"))
 {
-  print("Download")  
+  print(df)  
 }
 ```
 
@@ -68,80 +68,77 @@ validation <- temp %>%
 
 # Add rows removed from validation set back into edx set
 removed <- anti_join(temp, validation)
-
 edx <- rbind(edx, removed)
 
 #rm(dl, ratings, movies, test_index, temp, movielens, removed)
-#train <- edx
 
-#RMSE <- function(true_ratings, predicted_ratings){
-     #sqrt(mean((true_ratings - predicted_ratings)^2))
-#}
-
-#validation dataset
-#validation  <- validation %>% select(-rating)
+#Validation Dataset
+validation <- validation %>% select(-rating)
 ```
 
 
 ##GENERAL QUESTIONS Movielens DataSet:
-
 ##1. How many rows and columns are there in the edx dataset?
 
-```{r }
+```{r MovielensCapstone, echo=FALSE}
 head(edx)
 ```
 
 #2. Dimension Dataset
-```{r }
+```{r MovielensCapstone, echo=FALSE}
 dim(edx)
 str(edx)
 ```
 
 # 3. General information about dataset
-```{r }
+```{r MovielensCapstone, echo=FALSE}
 summary(edx)
 ```
 
 # 4.How many rows and columns are there in the edx dataset
-```{r }
+```{r MovielensCapstone, echo=FALSE}
 paste('The dataset has',nrow(edx),'rows and',ncol(edx),'columns.')
 ```
+
 # 5.To see more information about dataset
-```{r }
+```{r MovielensCapstone, echo=FALSE}
+
 edx %>% summarise(
   uniq_movies = n_distinct(movieId),
   uniq_users = n_distinct(userId),
   uniq_genres = n_distinct(genres))
 ```
-#Mean of rating dataset
-```{r }
+
+#6. Mean of rating dataset
+```{r MovielensCapstone, echo=FALSE}
 rating_mean <- mean(edx$rating)
 rating_mean
 ```
-#How many zeros were given as ratings in the edx dataset?
-```{r }
+
+#7. How many zeros were given as ratings in the edx dataset?
+```{r MovielensCapstone, echo=FALSE}
+
 paste(sum(edx$rating == 0), '.ratings and',
       sum(edx$rating == 3),'ratings with 3')
 ```
+```{r MovielensCapstone, echo=FALSE}
 
-```{r }
 edx %>% filter(rating == 3) %>% tally()
 ```
 
-#How many different movies are in the edx dataset
-```{r }
+#8. How many different movies are in the edx dataset
+```{r MovielensCapstone, echo=FALSE}
+
 n_distinct(edx$movieId)
 ```
-
 
 ```{r }
 edx %>% summarize(n_movies = n_distinct(movieId))
 ```
-#How many different users are in the edx dataset. n_distinct or lenght
-```{r }
+#9. How many different users are in the edx dataset. n_distinct or lenght
+```{r MovielensCapstone, echo=FALSE}
 n_distinct(edx$userId)
 ```
-
 
 ```{r }
 edx %>% summarize(n_users = n_distinct(userId))
@@ -150,7 +147,8 @@ edx %>% summarize(n_users = n_distinct(userId))
 #How many movie ratings are in each of the following genres in the edx dataset?
 # str_detect
 
-```{r }
+```{r MovielensCapstone, echo=FALSE}
+
 genres <- c("Drama", "Comedy", "Thriller", "Romance")
 genresCounts <- sapply(genres, function(g){
     movies %>% filter(str_detect(genres, g)) %>% tally()
@@ -163,17 +161,22 @@ movies %>% separate_rows(genres, sep = "\\|") %>%
     arrange(desc(count))
 ```
 
+#Rating by category
 ```{r MovielensCapstone, echo=FALSE}
+
 drama <- data %>% filter(str_detect(genres,"Drama"))
-paste('Drama has',nrow(drama),'movies')
+paste('Drama',nrow(drama),'movies')
+
 comedy <- data %>% filter(str_detect(genres,"Comedy"))
-paste('Comedy has',nrow(comedy),'movies')
+paste('Comedy',nrow(comedy),'movies')
+
 thriller <- data %>% filter(str_detect(genres,"Thriller"))
-paste('Thriller has',nrow(thriller),'movies')
+paste('Thriller',nrow(thriller),'movies')
+
 romance <- data %>% filter(str_detect(genres,"Romance"))
-paste('Romance has',nrow(romance),'movies')
+paste('Romance',nrow(romance),'movies')
+
 rm(drama, comedy, thriller, romance)
-   
 ```
 
 
@@ -181,37 +184,40 @@ rm(drama, comedy, thriller, romance)
 
 #Greatest number of ratings. Arrange rows by variables
 
-```{r }
+```{r MovielensCapstone, echo=FALSE}
 n_distinct(movies$genres)
 ```
 
-```{r }
+```{r MovielensCapstone, echo=FALSE}
+
 movies %>% group_by(title) %>% 
         summarise(number = n()) %>% 
         arrange(desc(number))
 ```
 
+
 #What are the five most given ratings in order from most to least?
 #Sort a variable in descending order.
-```{r }
+```{r MovielensCapstone, echo=FALSE}
 edx %>% group_by(rating) %>% 
     summarize(count = n()) %>% 
     top_n(5) %>%
 	  arrange(desc(count))
 ```
 
-```{r }
+```{r MovielensCapstone, echo=FALSE}
 head(sort(-table(edx$rating)),5)
 ```
 
-```{r }
+```{r MovielensCapstone, echo=FALSE}
 hist(edx$rating)
 summary(edx$rating)
 ```
+
 #True or False: In general, half star ratings are less common than whole star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.).
 #Rating movies
 
-```{r }
+```{r MovielensCapstone, echo=FALSE}
 rating4 <- table(edx$rating)["4"]
 rating35 <- table(edx$rating)["3.5"]
 rating3 <- table(edx$rating)["3"]
@@ -225,7 +231,7 @@ rm(rating3, rating35,  rating4, Result)
 
 
 #Graphic Rating movies
-```{r }
+```{r MovielensCapstone, echo=FALSE}
 edx %>%
 	group_by(rating) %>%
 	summarize(count = n()) %>%
@@ -233,29 +239,90 @@ edx %>%
 	geom_line()
 ```
 
+
 #4 MODELING
 ##Predicted movie ratings and calculates RMSE.
 #Compared the ratings -> using RMSE
+
 ```{r MovielensCapstone,  echo=FALSE}
 data <- movies %>% separate_rows(genres, sep ="\\|")
 DAT.aggregate <- aggregate(formula = cbind(n = 1:nrow(data)) ~ genres, data = data, FUN = length)
 ```
 
+
 #Size of dataset 
-```{r }
+```{r MovielensCapstone, echo=FALSE}
 movielens <- left_join(ratings, movies, by = "movieId")
 nrow(movielens)
 ```
 
-```{r echo=FALSE}
+```{r MovielensCapstone, echo=FALSE}
+#Creates Year column.
+edx <- edx %>% 
+  mutate(title = str_trim(title)) %>%
+  extract(title, c("title_tmp", "year"),
+          regex = "^(.*) \\(([0-9 \\-]*)\\)$",
+          remove = F) %>%
+  mutate(year = if_else(str_length(year) > 4,
+                        as.integer(str_split(year, "-",
+                                             simplify = T)[1]),
+                        as.integer(year))) %>%
+  mutate(title = if_else(is.na(title_tmp), title, title_tmp)) %>%
+  select(-title_tmp)  %>%
+  mutate(genres = if_else(genres == "(No Genres Listed)",
+                          `is.na<-`(genres), genres))
+validation <- temp %>% 
+  semi_join(edx, by = "movieId") %>%
+  semi_join(edx, by = "userId")
+```
+
+ 
+```{r MovielensCapstone, echo=FALSE}
+#Root Mean Square Error  
+RMSE <- function(true_ratings, predicted_ratings){
+        sqrt(mean((true_ratings - predicted_ratings)^2))
+      }
+      
+lambdas <- seq(0, 5, 0.25)
+rmses <- sapply(lambdas,function(l){
+  mu <- mean(edx$rating) #The mean of ratings from training set
+  
+  Movie_effect <- edx %>%  #Adjust mean by movie effect
+    group_by(movieId) %>%
+    summarize(Movie_effect = sum(rating - mu)/(n()+l))
+  
+  Movie_user <- edx %>% #Ajdust mean by movie effect and user  
+    left_join(Movie_effect, by="movieId") %>%
+    group_by(userId) %>%
+    summarize(Movie_user = sum(rating - Movie_effect - mu)/(n()+l))
+  
+  predicted_ratings <- 
+    edx %>% 
+    left_join(Movie_user, by = "userId") %>%
+    left_join(Movie_effect, by = "movieId") %>%
+    mutate(pred = mu + Movie_effect + Movie_user) %>%
+    .$pred #Predict ratings 
+  
+  return(RMSE(predicted_ratings, edx$rating))
+})
+plot(lambdas, rmses, col = "blue")
+```
+#Calculate Lambda optimal RMSE
+```{r MovielensCapstone, echo=FALSE}
+lambda <- lambdas[which.min(rmses)]
+paste('RMSE',min(rmses),'Lambda',lambda)
+
+```
+
+```{r MovielensCapstone, echo=FALSE}
 mu_hat <- mean(train_set$rating)
 naive_rmse <- RMSE(test_set$rating, mu_hat)
-rmse_results <- data_frame(method = "Just the average", RMSE = naive_rmse)
+rmse_results <- data_frame(method = "Average", RMSE = naive_rmse)
 rmse_results
 
 ```
 #Graphic Histogram summarize 
-```{r , echo=FALSE}
+```{r MovielensCapstone, echo=FALSE}
 
 #UserId Bias
 mu <- mu_hat
@@ -296,7 +363,7 @@ user_avgs$b_u[is.na(user_avgs$b_u)] <- 0
 user_avgs %>% qplot(b_u, geom ="histogram", bins = 10, data = ., color = I("green"))
 ```
 
-```{r , echo=FALSE}
+```{r MovielensCapstone, echo=FALSE}
 
 b_i <- test_set %>% 
   left_join(movie_avgs, by='movieId') %>%
@@ -311,17 +378,6 @@ rmse_results <- bind_rows(rmse_results,
                                      RMSE = model_rmse ))
 rmse_results
 ```
-
-
-#Calculate Lambda optimal RMSE
-```{r }
-lambda <- lambdas[which.min(rmses)]
-paste('RMSE',min(rmses),'Lambda',lambda)
-```
-
-
-
-
 
 
 #CONCLUSION:
