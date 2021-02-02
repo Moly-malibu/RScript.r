@@ -1,0 +1,334 @@
+---
+title: "Movilens"
+author: "Monica Bustamante"
+date: "1/28/2021"
+output: pdf_document
+---
+
+
+#Load Data
+```{r config, }
+df <- "MovieLens.RData"
+if(!file.exists("MovieLens.RData"))
+{
+  print("Download")  
+}
+```
+
+#Prepare dataset:
+```{r setup, include=FALSE}
+
+##########################################################
+# Create edx set, validation set (final hold-out test set)
+##########################################################
+
+# Note: this process could take a couple of minutes
+
+if(!require(tidyverse)) install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+if(!require(caret)) install.packages("caret", repos = "http://cran.us.r-project.org")
+if(!require(data.table)) install.packages("data.table", repos = "http://cran.us.r-project.org")
+
+library(tidyverse)
+library(caret)
+library(data.table)
+
+# MovieLens 10M dataset:
+# https://grouplens.org/datasets/movielens/10m/
+# http://files.grouplens.org/datasets/movielens/ml-10m.zip
+
+dl <- tempfile()
+download.file("http://files.grouplens.org/datasets/movielens/ml-10m.zip", dl)
+
+ratings <- read.table(text = gsub("::", "\t", readLines(unzip(dl, "ml-10M100K/ratings.dat"))),
+                      col.names = c("userId", "movieId", "rating", "timestamp"))
+movies <- str_split_fixed(readLines(unzip(dl, "ml-10M100K/movies.dat")), "\\::", 3)
+colnames(movies) <- c("movieId", "title", "genres")
+movies <- as.data.frame(movies) %>% mutate(movieId = as.numeric(levels(movieId))[movieId],
+                                           title = as.character(title),
+                                           genres = as.character(genres))
+movielens <- left_join(ratings, movies, by = "movieId")
+
+
+movielens <- left_join(ratings, movies, by = "movieId")
+nrow(movielens)
+n_distinct(movielens$genres)
+
+# 3. Validation set will be 10% of MovieLens data
+set.seed(1, sample.kind="Rounding") # if using R 3.5 or earlier, use `set.seed(1)`
+test_index <- createDataPartition(y = movielens$rating, times = 1, p = 0.1, list = FALSE)
+
+#Training sets
+edx <- movielens[-test_index,]
+temp <- movielens[test_index,]
+
+# Make sure userId and movieId in validation set are also in edx set
+validation <- temp %>% 
+      semi_join(edx, by = "movieId") %>%
+      semi_join(edx, by = "userId")
+
+# Add rows removed from validation set back into edx set
+removed <- anti_join(temp, validation)
+
+edx <- rbind(edx, removed)
+
+#rm(dl, ratings, movies, test_index, temp, movielens, removed)
+#train <- edx
+
+#RMSE <- function(true_ratings, predicted_ratings){
+     #sqrt(mean((true_ratings - predicted_ratings)^2))
+#}
+
+#validation dataset
+#validation  <- validation %>% select(-rating)
+```
+
+
+##GENERAL QUESTIONS Movielens DataSet:
+
+##1. How many rows and columns are there in the edx dataset?
+
+```{r }
+head(edx)
+```
+
+#2. Dimension Dataset
+```{r }
+dim(edx)
+str(edx)
+```
+
+# 3. General information about dataset
+```{r }
+summary(edx)
+```
+
+# 4.How many rows and columns are there in the edx dataset
+```{r }
+paste('The dataset has',nrow(edx),'rows and',ncol(edx),'columns.')
+```
+# 5.To see more information about dataset
+```{r }
+edx %>% summarise(
+  uniq_movies = n_distinct(movieId),
+  uniq_users = n_distinct(userId),
+  uniq_genres = n_distinct(genres))
+```
+#Mean of rating dataset
+```{r }
+rating_mean <- mean(edx$rating)
+rating_mean
+```
+#How many zeros were given as ratings in the edx dataset?
+```{r }
+paste(sum(edx$rating == 0), '.ratings and',
+      sum(edx$rating == 3),'ratings with 3')
+```
+
+```{r }
+edx %>% filter(rating == 3) %>% tally()
+```
+
+#How many different movies are in the edx dataset
+```{r }
+n_distinct(edx$movieId)
+```
+
+
+```{r }
+edx %>% summarize(n_movies = n_distinct(movieId))
+```
+#How many different users are in the edx dataset. n_distinct or lenght
+```{r }
+n_distinct(edx$userId)
+```
+
+
+```{r }
+edx %>% summarize(n_users = n_distinct(userId))
+```
+
+#How many movie ratings are in each of the following genres in the edx dataset?
+# str_detect
+
+```{r }
+genres <- c("Drama", "Comedy", "Thriller", "Romance")
+genresCounts <- sapply(genres, function(g){
+    movies %>% filter(str_detect(genres, g)) %>% tally()
+})
+          
+# separate_rows, much slower!
+movies %>% separate_rows(genres, sep = "\\|") %>%
+    group_by(genres) %>%
+    summarize(count = n()) %>%
+    arrange(desc(count))
+```
+
+```{r MovielensCapstone, echo=FALSE}
+drama <- data %>% filter(str_detect(genres,"Drama"))
+paste('Drama has',nrow(drama),'movies')
+comedy <- data %>% filter(str_detect(genres,"Comedy"))
+paste('Comedy has',nrow(comedy),'movies')
+thriller <- data %>% filter(str_detect(genres,"Thriller"))
+paste('Thriller has',nrow(thriller),'movies')
+romance <- data %>% filter(str_detect(genres,"Romance"))
+paste('Romance has',nrow(romance),'movies')
+rm(drama, comedy, thriller, romance)
+   
+```
+
+
+#Which movie has the greatest number of ratings?
+
+#Greatest number of ratings. Arrange rows by variables
+
+```{r }
+n_distinct(movies$genres)
+```
+
+```{r }
+movies %>% group_by(title) %>% 
+        summarise(number = n()) %>% 
+        arrange(desc(number))
+```
+
+#What are the five most given ratings in order from most to least?
+#Sort a variable in descending order.
+```{r }
+edx %>% group_by(rating) %>% 
+    summarize(count = n()) %>% 
+    top_n(5) %>%
+	  arrange(desc(count))
+```
+
+```{r }
+head(sort(-table(edx$rating)),5)
+```
+
+```{r }
+hist(edx$rating)
+summary(edx$rating)
+```
+#True or False: In general, half star ratings are less common than whole star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.).
+#Rating movies
+
+```{r }
+rating4 <- table(edx$rating)["4"]
+rating35 <- table(edx$rating)["3.5"]
+rating3 <- table(edx$rating)["3"]
+
+Result <- (rating35 < rating3 && rating35 < rating4)
+
+print(Result)
+
+rm(rating3, rating35,  rating4, Result)
+```
+
+
+#Graphic Rating movies
+```{r }
+edx %>%
+	group_by(rating) %>%
+	summarize(count = n()) %>%
+	ggplot(aes(x = rating, y = count)) +
+	geom_line()
+```
+
+#4 MODELING
+##Predicted movie ratings and calculates RMSE.
+#Compared the ratings -> using RMSE
+```{r MovielensCapstone,  echo=FALSE}
+data <- movies %>% separate_rows(genres, sep ="\\|")
+DAT.aggregate <- aggregate(formula = cbind(n = 1:nrow(data)) ~ genres, data = data, FUN = length)
+```
+
+#Size of dataset 
+```{r }
+movielens <- left_join(ratings, movies, by = "movieId")
+nrow(movielens)
+```
+
+```{r echo=FALSE}
+mu_hat <- mean(train_set$rating)
+naive_rmse <- RMSE(test_set$rating, mu_hat)
+rmse_results <- data_frame(method = "Just the average", RMSE = naive_rmse)
+rmse_results
+
+```
+#Graphic Histogram summarize 
+```{r , echo=FALSE}
+
+#UserId Bias
+mu <- mu_hat
+movie_avgs <- train_set %>% 
+  group_by(movieId) %>% 
+  summarize(b_i = mean(rating - mu))
+movie_avgs %>% qplot(b_i, geom ="histogram", bins = 10, data = ., color = I("blue"))
+
+```
+
+```{r MovielensCapstone, echo=FALSE}
+
+# prediction 
+b_i <- test_set %>% 
+  left_join(movie_avgs, by='movieId') %>%
+  .$b_i
+
+#Delete NA
+b_i[is.na(b_i)] <- 0
+predicted_ratings <- mu + b_i
+model_1_rmse <- RMSE(predicted_ratings, test_set$rating)
+rmse_results <- bind_rows(rmse_results,
+                          data_frame(method="Movie Model",
+                                     RMSE = model_1_rmse ))
+rmse_results
+```
+
+```{r MovielensCapstone, echo=FALSE}
+
+user_avgs <- train_set %>% 
+  left_join(movie_avgs, by='movieId') %>%
+  group_by(userId) %>%
+  filter(n()>100) %>%
+  summarize(b_u = mean(rating - mu - b_i))
+
+#Delete NA
+user_avgs$b_u[is.na(user_avgs$b_u)] <- 0
+user_avgs %>% qplot(b_u, geom ="histogram", bins = 10, data = ., color = I("green"))
+```
+
+```{r , echo=FALSE}
+
+b_i <- test_set %>% 
+  left_join(movie_avgs, by='movieId') %>%
+  .$b_i
+
+#Delete NA
+b_i[is.na(b_i)] <- 0
+predicted_ratings <- mu + b_i
+model_rmse <- RMSE(predicted_ratings, test_set$rating)
+rmse_results <- bind_rows(rmse_results,
+                          data_frame(method="Movie Model",
+                                     RMSE = model_rmse ))
+rmse_results
+```
+
+
+#Calculate Lambda optimal RMSE
+```{r }
+lambda <- lambdas[which.min(rmses)]
+paste('RMSE',min(rmses),'Lambda',lambda)
+```
+
+
+
+
+
+
+#CONCLUSION:
+
+Predict a list of rated movies.
+
+Discovered patterns: as people prefer movies with a medium to high rating. (3 to 5). 
+
+The movies preferred by the customers was the end of the 1980 and 1990 periods.
+
