@@ -328,8 +328,9 @@ plot(lambdas, rmses, col = "blue")
 #Calculate Lambda optimal RMSE
 ```{r MovielensCapstone, echo=FALSE}
 lambda <- lambdas[which.min(rmses)]
-paste('RMSE',min(rmses),'Lambda',lambda)
+paste('RMSE',min(rmses),'Lambda',lambda) #Lambda measure of the percent variance in dependent variables. 
 ```
+
 #Prediction and average movie model
 #Calculate average RMSE
 ```{r MovielensCapstone, echo=FALSE}
@@ -360,15 +361,6 @@ user_avgs <- train_set %>%
 #Delete NA
 user_avgs$b_u[is.na(user_avgs$b_u)] <- 0
 user_avgs %>% qplot(b_u, geom ="histogram", bins = 10, data = ., color = I("green"))
-```
-
-#Graphic Histogram summarize Movie Average 
-```{r MovielensCapstone, echo=FALSE}
-mu <- mean(train_set$rating) 
-movie_avgs <- train_set %>% 
-  group_by(movieId) %>% 
-  summarize(b_i = mean(rating - mu))
-qplot(b_i, data = movie_avgs, bins = 10, color = I("green"))
 ```
 
 
