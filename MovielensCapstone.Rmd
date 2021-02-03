@@ -303,13 +303,13 @@ RMSE <- function(true_ratings, predicted_ratings){
       
 lambdas <- seq(0, 5, 0.25)
 rmses <- sapply(lambdas,function(l){
-  mu <- mean(edx$rating) #The mean of ratings from training set
+  mu <- mean(edx$rating) #The mean of ratings  
   
-  Movie_effect <- edx %>%  #Adjust mean by movie effect
+  Movie_effect <- edx %>%  #Adjust mean by movie  
     group_by(movieId) %>%
     summarize(Movie_effect = sum(rating - mu)/(n()+l))
   
-  Movie_user <- edx %>% #Ajdust mean by movie effect and user  
+  Movie_user <- edx %>% #Adjust mean by movie and user  
     left_join(Movie_effect, by="movieId") %>%
     group_by(userId) %>%
     summarize(Movie_user = sum(rating - Movie_effect - mu)/(n()+l))
@@ -329,28 +329,9 @@ plot(lambdas, rmses, col = "blue")
 ```{r MovielensCapstone, echo=FALSE}
 lambda <- lambdas[which.min(rmses)]
 paste('RMSE',min(rmses),'Lambda',lambda)
-
-```
-#Calculate average RMSE
-```{r MovielensCapstone, echo=FALSE}
-mu_hat <- mean(train_set$rating)
-naive_rmse <- RMSE(test_set$rating, mu_hat)
-rmse_results <- data_frame(method = "Average", RMSE = naive_rmse)
-rmse_results
-
-```
-#Graphic Histogram summarize 
-```{r MovielensCapstone, echo=FALSE}
-
-#UserId Bias
-mu <- mu_hat
-movie_avgs <- train_set %>% 
-  group_by(movieId) %>% 
-  summarize(b_i = mean(rating - mu))
-movie_avgs %>% qplot(b_i, geom ="histogram", bins = 10, data = ., color = I("blue"))
-
 ```
 #Prediction and average movie model
+#Calculate average RMSE
 ```{r MovielensCapstone, echo=FALSE}
 
 # prediction 
@@ -367,8 +348,7 @@ rmse_results <- bind_rows(rmse_results,
                                      RMSE = model_1_rmse ))
 rmse_results
 ```
-
-#Movie Average visualizacion
+#Graphic Histogram summarize User Average 
 ```{r MovielensCapstone, echo=FALSE}
 
 user_avgs <- train_set %>% 
@@ -382,11 +362,22 @@ user_avgs$b_u[is.na(user_avgs$b_u)] <- 0
 user_avgs %>% qplot(b_u, geom ="histogram", bins = 10, data = ., color = I("green"))
 ```
 
+#Graphic Histogram summarize Movie Average 
+```{r MovielensCapstone, echo=FALSE}
+mu <- mean(train_set$rating) 
+movie_avgs <- train_set %>% 
+  group_by(movieId) %>% 
+  summarize(b_i = mean(rating - mu))
+qplot(b_i, data = movie_avgs, bins = 10, color = I("green"))
+```
 
-                                   Results the modeling results and performance
+
+
+                                   Results the modeling and performance
                                    
-We created the model on the training set and evaluate the performance on the test set to evaluating model performance that give us the average 1.060, lambda 0.5 and RMSE 0.857.
+We created the model to predict rating using average rating by  movies and users on the training set and evaluate the performance on the test set to evaluating model performance that give us the average 1.060, lambda 0.5 and RMSE 0.857, movie model is 0.94..
 
+                                                   
                                                     CONCLUSION
                                                     
 
@@ -396,3 +387,7 @@ Discovered patterns: as people prefer movies with a medium to high rating. (3 to
 
 The movies preferred by the customers was the end of the 1980 and 1990 periods.
 
+Note:
+
+I used sources https://rafalab.github.io/dsbook/large-datasets.html#
+English is my second language. Please, excuse me, if I wrote a grammar mistake. Thanks.
