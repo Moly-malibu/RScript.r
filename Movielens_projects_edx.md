@@ -1,15 +1,40 @@
 
-# Movie Lens Data Set Recommendation Analysis
+<center>
 
-Title:     Movielens
+# MovieLens Project Report
 
-Author :   Monica Bustamante  
+</center>
 
-Output:    PDF
+<center>
+
+### Monica Bustamante
+
+</center>
+
+<center>
+
+### HarvardX-Data Science: Capstone
+
+</center>
+
+# 
+
+<center>
 
 # INTRODUCTION
 
-Predict the rating of movies by users using ratings that have been collected for several years by Movilens and thus convert them to algorithms and machine learning models, and then recommend users in their future searches, as a result, verify the performance of algorithms. For the evaluation, the residual mean square error (RMSE) of the predictions will be used and thus compare the real rating of the users. In general, the algorithms and model will show a deep understanding of the variables, observations, and ratings given by users, and as a result, compare the final results and predictions.
+</center>
+
+# 
+
+<p style='text-align: justify;'> Movielenss is a project developed by GroupLens, a research laboratory at the University of Minnesota. MovieLens provides online movie recommender algorithms, the full data set consists of more de 25 million ratings across more than 40,000 movies by more than 250.000 users, all users selected had rated at least 20 movies, each user is represented by id. 
+    This project will predict features and the rating of movies by users using ratings that have been collected for several years by Movilens and thus convert them to algorithms and machine learning models, and then recommend users in their future searches, as a result, verify the performance of algorithms. For the evaluation, the residual mean square error (RMSE) of the predictions will be used and thus compare the real rating of the users. 
+    In general, the algorithms and model will show a deep understanding of the variables, observations, and ratings given by users, and as a result, compare the final results and predictions. 
+
+</p>
+
+
+# 
 
 1. Create Edx Set, validation set
 2. Install Packages
@@ -22,7 +47,9 @@ Predict the rating of movies by users using ratings that have been collected for
 8. Analysis of the variables
 9. Model Developing Approach
 
-## Install Packages and Libraries
+## 1. Installing essential Packages and Libraries
+
+# 
 
 
 ```R
@@ -50,8 +77,6 @@ install.packages("data.table", repos = "http://cran.us.r-project.org")
 install.packages("caret", repos = "http://cran.us.r-project.org", dependencies=TRUE)
 ```
 
-    also installing the dependencies ‘R.methodsS3’, ‘R.oo’, ‘R.utils’, ‘magrittr’, ‘R.cache’, ‘TH.data’, ‘profileModel’, ‘plotrix’, ‘miniUI’, ‘styler’, ‘classInt’, ‘labelled’, ‘gplots’, ‘libcoin’, ‘matrixStats’, ‘multcomp’, ‘diffobj’, ‘rematch2’, ‘generics’, ‘brglm’, ‘qvcalc’, ‘plotmo’, ‘TeachingDemos’, ‘combinat’, ‘questionr’, ‘ROCR’, ‘modeltools’, ‘strucchange’, ‘coin’, ‘ISwR’, ‘corpcor’, ‘brio’, ‘praise’, ‘ps’, ‘waldo’, ‘rex’, ‘ModelMetrics’, ‘recipes’, ‘pROC’, ‘BradleyTerry2’, ‘e1071’, ‘earth’, ‘fastICA’, ‘gam’, ‘klaR’, ‘ellipse’, ‘mda’, ‘mlbench’, ‘MLmetrics’, ‘party’, ‘pls’, ‘proxy’, ‘RANN’, ‘spls’, ‘subselect’, ‘pamr’, ‘superpc’, ‘Cubist’, ‘testthat’, ‘covr’
-    
     Updating HTML index of packages in '.Library'
     Making 'packages.html' ... done
 
@@ -63,14 +88,16 @@ library(tidyverse)
 library(caret)
 ```
 
-    ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+    Warning message in system("timedatectl", intern = TRUE):
+    “running command 'timedatectl' had status 1”── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
     ✔ ggplot2 3.3.3     ✔ purrr   0.3.4
-    ✔ tibble  3.1.0     ✔ dplyr   1.0.5
+    ✔ tibble  3.1.2     ✔ dplyr   1.0.6
     ✔ tidyr   1.1.3     ✔ stringr 1.4.0
-    ✔ readr   1.3.1     ✔ forcats 0.4.0
+    ✔ readr   1.4.0     ✔ forcats 0.5.1
     ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ✖ dplyr::filter() masks stats::filter()
-    ✖ dplyr::lag()    masks stats::lag()
+    ✖ dplyr::filter()     masks stats::filter()
+    ✖ dplyr::group_rows() masks kableExtra::group_rows()
+    ✖ dplyr::lag()        masks stats::lag()
     Loading required package: lattice
     
     Attaching package: ‘caret’
@@ -81,7 +108,12 @@ library(caret)
     
 
 
-## Load DataSet
+# 
+
+## 2. DataSet Downloading
+
+<p style='text-align: justify;'> Data set is from the web http://files.grouplens.org/datasets/movielens/ml-10m.zip", and it is stored in temporary file.
+</p>
 
 
 ```R
@@ -116,6 +148,11 @@ movies <- as.data.frame(movies) %>% mutate(movieId = as.numeric(levels(movieId))
 ```R
 movielens <- left_join(ratings, movies, by = "movieId")
 ```
+
+### <p style='text-align: justify;'> Split and Validation:
+
+    Prepared the Movilens dataset split and validation by 10%. 
+</p>
 
 
 ```R
@@ -155,7 +192,24 @@ rm(dl, ratings, movies, test_index, temp, movielens, removed)
 validation  <- validation %>% select(-rating)
 ```
 
-# Analysis Approach
+# 
+
+# 3. Data Cleansing
+
+Verify nan values in Edx validation dataframes:
+
+
+```R
+na_edx <- sapply(edx, function(x) sum(is.na(x)))
+na_validation <- sapply(validation, function(x) sum(is.na(x)))
+print(na_edx, na_validation)
+```
+
+       userId   movieId    rating timestamp     title    genres 
+            0         0         0         0         0         0 
+
+
+# 4. Basic information at Data Set
 
 Acquire information by exploring and analyzing the dataset, understanding the effects of the different variables.
 
@@ -184,8 +238,9 @@ head(edx, 5)
 
 ```R
 #General information about dataset
-print(summary(edx))
+summary(edx)
 ```
+
 
          userId         movieId          rating        timestamp        
      Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08  
@@ -203,8 +258,12 @@ print(summary(edx))
                                           
 
 
-The edx data has 9,000,055 rows or observations and 6 columns or variables. 69,878 users rated one, 797 genres, and more of the 10,677 movies. Each row represents one user’s rating to a
-single movie.
+<p style='text-align: justify;'> 
+The edx data has 9,000,055 rows or observations and 6 columns or variables. 69,878 users rated one, 797 genres, and more of the 10,677 movies. Each row represents one user’s rating to a single movie.
+    
+The UserId has Median 35743, while Median is 1834 by MovieId, rating is 4.
+
+</p>
 
 
 ```R
@@ -338,7 +397,7 @@ sapply(genres, function(g) {
     sum(str_detect(edx$genres, g))
 })
           
-# separate_rows, much slower!
+# separate_rows, much slower.
 edx %>% separate_rows(genres, sep = "\\|") %>%
     group_by(genres) %>%
     summarize(count = n()) %>%
@@ -431,6 +490,8 @@ paste('Romance has',nrow(romance),'movies')
 
 'Romance has 1712232 movies'
 
+
+# 
 
 #  VARIABLE ANALYSIS BY RATING
 
@@ -560,7 +621,7 @@ summary(edx$rating)
 
 
 
-![png](output_49_2.png)
+![png](output_62_2.png)
 
 
 
@@ -578,7 +639,7 @@ edx %>%  # Ratings Distribution:
     Did you mean `limits = factor(...)` or `scale_*_continuous()`?”
 
 
-![png](output_50_1.png)
+![png](output_63_1.png)
 
 
 # What are the five most given ratings in order from most to least?
@@ -628,6 +689,8 @@ rm(rating35, rating3, rating4, Result)
     [1] TRUE
 
 
+# Graphic Rating movies
+
 
 ```R
 #Graphic Rating movies
@@ -639,8 +702,10 @@ edx %>%
 ```
 
 
-![png](output_55_0.png)
+![png](output_69_0.png)
 
+
+# Plot mean movie ratings given by users
 
 
 ```R
@@ -663,7 +728,7 @@ edx %>%
     Did you mean `limits = factor(...)` or `scale_*_continuous()`?”
 
 
-![png](output_56_1.png)
+![png](output_71_1.png)
 
 
 
@@ -708,6 +773,8 @@ nrow(movielens)
 10000054
 
 
+# Genres as Drama and Comedy have high rating.
+
 
 ```R
 #Genres as Drama and Comedy have high rating.
@@ -719,7 +786,7 @@ theme(axis.text.x=element_text(angle = -90, hjust = 0))
 ```
 
 
-![png](output_61_0.png)
+![png](output_77_0.png)
 
 
 
@@ -734,10 +801,10 @@ plot(table(movielens$year),
 ```
 
 
-![png](output_62_0.png)
+![png](output_78_0.png)
 
 
-# MODELING
+# 4. MODELING
 
 # Predicted movie ratings and calculates RMSE.
 
@@ -773,21 +840,15 @@ mu <- mean(train$rating)  #mean
 
 rmse_naive <- RMSE(test$rating, mu)  #MODEL 1
 
-rmse_results <- data_frame(method='Average', RMSE=rmse_naive)
+rmse_results <- data_frame(method='Average NAIVE', RMSE=rmse_naive)
 rmse_results
 ```
-
-    Warning message:
-    “`data_frame()` was deprecated in tibble 1.1.0.
-    Please use `tibble()` instead.
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.”
 
 
 <table>
 <thead><tr><th scope=col>method</th><th scope=col>RMSE</th></tr></thead>
 <tbody>
-	<tr><td>Average </td><td>1.060381</td></tr>
+	<tr><td>Average NAIVE</td><td>1.060381     </td></tr>
 </tbody>
 </table>
 
@@ -815,7 +876,7 @@ rmse_results
 <table>
 <thead><tr><th scope=col>method</th><th scope=col>RMSE</th></tr></thead>
 <tbody>
-	<tr><td>Average           </td><td>1.0603807         </td></tr>
+	<tr><td>Average NAIVE     </td><td>1.0603807         </td></tr>
 	<tr><td>Movie Effect Model</td><td>0.9435103         </td></tr>
 </tbody>
 </table>
@@ -846,7 +907,7 @@ rmse_results
 <table>
 <thead><tr><th scope=col>method</th><th scope=col>RMSE</th></tr></thead>
 <tbody>
-	<tr><td>Average                  </td><td>1.0603807                </td></tr>
+	<tr><td>Average NAIVE            </td><td>1.0603807                </td></tr>
 	<tr><td>Movie Effect Model       </td><td>0.9435103                </td></tr>
 	<tr><td>Movie + User Effect Model</td><td>0.8660346                </td></tr>
 </tbody>
@@ -873,12 +934,10 @@ rmse_results
 <table>
 <thead><tr><th scope=col>method</th><th scope=col>RMSE</th><th scope=col>Method</th></tr></thead>
 <tbody>
-	<tr><td>Average                  </td><td>1.0603807                </td><td>NA                       </td></tr>
+	<tr><td>Average NAIVE            </td><td>1.0603807                </td><td>NA                       </td></tr>
 	<tr><td>Movie Effect Model       </td><td>0.9435103                </td><td>NA                       </td></tr>
 	<tr><td>Movie + User Effect Model</td><td>0.8660346                </td><td>NA                       </td></tr>
 	<tr><td>NA                       </td><td>      NaN                </td><td>Validation               </td></tr>
-	<tr><td>NA                       </td><td>0.8660346                </td><td>Validation               </td></tr>
-	<tr><td>NA                       </td><td>0.8660346                </td><td>Validation               </td></tr>
 </tbody>
 </table>
 
@@ -943,7 +1002,7 @@ plot(lambdas, rmses, #Graphic
 ```
 
 
-![png](output_76_0.png)
+![png](output_92_0.png)
 
 
 
@@ -985,7 +1044,7 @@ plot(avg_ratings)
 ```
 
 
-![png](output_77_0.png)
+![png](output_93_0.png)
 
 
 
@@ -1000,9 +1059,9 @@ tibble(`Initial Date` = date(as_datetime(min(edx$timestamp), origin="1980-01-01"
     
     Attaching package: ‘lubridate’
     
-    The following object is masked from ‘package:base’:
+    The following objects are masked from ‘package:base’:
     
-        date
+        date, intersect, setdiff, union
     
 
 
@@ -1062,11 +1121,170 @@ edx %>% mutate(date = date(as_datetime(timestamp, origin="1990-01-01"))) %>%
 
 
 
-# CONCLUSION
+# 5 Data Analysis(EDA)
 
-RMSE, root-mean-square deviation, model that was used to predict from a list of rated movies, and discovers patterns. It was determined which movies viewers prefer, with a medium to high rating. (3 to 4). The films preferred by the clients were those produced from the periods 1920 and 2000 with a maximum rating of 4. The model yielded an accuracy of 86%, highlighting that the larger the sample size increases the accuracy or precision of the model and vice versa.
+# <p style='text-align: justify;'> Features:
+
+   - Title of the movie.
+   - Year of realse and rated.
+   - Timestamp Information.
+
+    We will verify the division of the database, and thus compare with two graphs that will show us a better classification of the different features
+
+</p>
 
 
 ```R
+questions <- c("How many different movies are in the edx dataset?",
+                "How many different genres are in the edx dataset?",
+                "How many different titles are in the edx dataset?",
+                "How many different users are in the edx dataset?",
+                "What is the rating of movies per users?"
+)
+values_edx <- c(round(n_distinct(edx$movieId),0),
+            round(n_distinct(edx$genres),0),
+            round(n_distinct(edx$title),0),
+            round(n_distinct(edx$userId),0),
+            round(n_distinct(edx$movieId)*n_distinct(edx$userId)/dim(edx)[1] ,2)
+)
+values_validation <- c(round(n_distinct(validation$movieId),0),
+                    round(n_distinct(validation$genres),0),
+                    round(n_distinct(validation$title),0),
+                    round(n_distinct(validation$userId),0),
+                    round(n_distinct(validation$movieId)*n_distinct(validation$userId)/dim(edx)[1] ,2)
+)
+train_val <- data.frame(questions = questions, edx=values_edx, validation = values_validation )
+train_val
 
 ```
+
+
+<table>
+<thead><tr><th scope=col>questions</th><th scope=col>edx</th><th scope=col>validation</th></tr></thead>
+<tbody>
+	<tr><td>How many different movies are in the edx dataset?</td><td>10649.00                                         </td><td>10169.00                                         </td></tr>
+	<tr><td>How many different genres are in the edx dataset?</td><td>  796.00                                         </td><td>  786.00                                         </td></tr>
+	<tr><td>How many different titles are in the edx dataset?</td><td>10380.00                                         </td><td>10168.00                                         </td></tr>
+	<tr><td>How many different users are in the edx dataset? </td><td>69878.00                                         </td><td>69692.00                                         </td></tr>
+	<tr><td>What is the rating of movies per users?          </td><td>  102.07                                         </td><td>   97.21                                         </td></tr>
+</tbody>
+</table>
+
+
+
+
+```R
+edx <- edx %>% separate_rows(genres,sep = "\\|") %>% mutate(value=1)
+        genres_rating <- edx %>% group_by(genres) %>% summarise(n=n())
+        genres_rating <- genres_rating[order(-genres_rating$n),]
+        ggplot(genres_rating, aes(x = n, y =reorder(genres, n),fill=genres)) +
+        geom_bar(stat = "identity") +
+        theme(legend.position = "none")+
+        labs(title="Bar plot for Genres ratings", x="Count", y="Genres ratings")
+```
+
+
+![png](output_99_0.png)
+
+
+<p style='text-align: justify;'> 
+
+We observe prevalence of genres, Drama continuing to be the most rated, and IMAX is the lowest, and give a correct cleaned the data deleted Nan, this model confirmed when before we agroup by genres.
+</p>
+
+
+```R
+edx %>% count(movieId) %>% ggplot(aes(n))+
+        geom_histogram(color = "black" , fill= "green")+
+        scale_x_log10()+
+        labs( x = "log10 of count movieID")+
+        ggtitle("Rating times Per Movie")+
+        theme_gray()
+```
+
+    `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+
+
+![png](output_101_1.png)
+
+
+
+```R
+install.packages("xtable", repos = "http://cran.us.r-project.org")
+library(xtable)
+```
+
+    Updating HTML index of packages in '.Library'
+    Making 'packages.html' ... done
+
+
+# Linear Regression Model Summary
+
+
+```R
+model <- lm(rating ~ userId + movieId, data = edx)
+result <- predict(model,validation)
+
+lm_rmse <- RMSE(validation$rating, result)
+
+model %>%
+summary() %>%
+xtable() 
+```
+
+
+<table>
+<thead><tr><th></th><th scope=col>Estimate</th><th scope=col>Std. Error</th><th scope=col>t value</th><th scope=col>Pr(&gt;|t|)</th></tr></thead>
+<tbody>
+	<tr><th scope=row>(Intercept)</th><td> 3.525399e+00</td><td>4.981499e-04 </td><td>7076.98374   </td><td> 0.000000e+00</td></tr>
+	<tr><th scope=row>userId</th><td> 1.326330e-07</td><td>1.174836e-08 </td><td>  11.28950   </td><td> 1.479117e-29</td></tr>
+	<tr><th scope=row>movieId</th><td>-7.617538e-07</td><td>2.592977e-08 </td><td> -29.37758   </td><td>1.072640e-189</td></tr>
+</tbody>
+</table>
+
+
+
+Histograms log10 of movieId looks like a gaussian distribution. From histograms, we observe the effects over Rating times by age at rate, 
+userID and movieID, which are assimilated to some type of distribution, which allows us to approach an prediction by mean value.
+
+The Model Linear Regression give us the same result of RMSE, with positive correlation that mean variables in which both variables move in the same direction.
+
+
+```R
+library(Hmisc)
+```
+
+
+```R
+#Now we can see the correlationn in this 3 features, 
+edx_cor <- select(edx,c(rating,userId,movieId))
+res_corr <- rcorr(as.matrix(edx_cor))
+print(res_corr)
+```
+
+            rating userId movieId
+    rating    1.00      0   -0.01
+    userId    0.00      1    0.00
+    movieId  -0.01      0    1.00
+    
+    n= 18931540 
+    
+    
+    P
+            rating userId movieId
+    rating          0      0     
+    userId   0             0     
+    movieId  0      0            
+
+
+# CONCLUSION
+
+<p style='text-align: justify;'>
+
+With the different analyzes we can see how we discover the tastes of the spectators, as the films with the highest rating are not necessarily the most viewed, likewise it leads us to discover the taste for films of past decades over the most avant-garde ones.
+
+
+RMSE, root-mean-square deviation, model that was used to predict from a list of rated movies, and discovers patterns. It was determined which movies viewers prefer, with a medium to high rating. (3 to 4). The films preferred by the clients were those produced from the periods 1920 and 2000 with a maximum rating of 4. The model yielded an accuracy of 86%, highlighting that the larger the sample size increases the accuracy or precision of the model and vice versa.
+
+</p>

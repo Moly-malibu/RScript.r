@@ -1,0 +1,1583 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Movielens\_projects\_edx}
+    
+    
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{MovieLens Project Report}\label{movielens-project-report}
+
+    \subsubsection{Monica Bustamante}\label{monica-bustamante}
+
+    \subsubsection{HarvardX-Data Science:
+Capstone}\label{harvardx-data-science-capstone}
+
+    \section{}\label{section}
+
+    \section{INTRODUCTION}\label{introduction}
+
+    \section{}\label{section}
+
+    Movielenss is a project developed by GroupLens, a research laboratory at
+the University of Minnesota. MovieLens provides online movie recommender
+algorithms, the full data set consists of more de 25 million ratings
+across more than 40,000 movies by more than 250.000 users, all users
+selected had rated at least 20 movies, each user is represented by id.
+This project will predict features and the rating of movies by users
+using ratings that have been collected for several years by Movilens and
+thus convert them to algorithms and machine learning models, and then
+recommend users in their future searches, as a result, verify the
+performance of algorithms. For the evaluation, the residual mean square
+error (RMSE) of the predictions will be used and thus compare the real
+rating of the users. In general, the algorithms and model will show a
+deep understanding of the variables, observations, and ratings given by
+users, and as a result, compare the final results and predictions.
+
+    \section{}\label{section}
+
+    \begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Create Edx Set, validation set
+\item
+  Install Packages
+\item
+  Install Libraries
+\item
+  Load Data set from HTTP
+\item
+  Create Rating
+\item
+  Split data
+\item
+  Create DataFrame
+\item
+  Create validation set
+\item
+  Analysis of the variables
+\item
+  Model Developing Approach
+\end{enumerate}
+
+    \subsection{1. Installing essential Packages and
+Libraries}\label{installing-essential-packages-and-libraries}
+
+    \section{}\label{section}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{c+c1}{\PYZsh{}Install packages}
+        \PY{n+nf}{install.packages}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{tidyverse\PYZdq{}}\PY{p}{,} \PY{n}{repos} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{http://cran.us.r\PYZhy{}project.org\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Updating HTML index of packages in '.Library'
+Making 'packages.html' {\ldots} done
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{c+c1}{\PYZsh{}Install packages }
+        \PY{n+nf}{install.packages}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{data.table\PYZdq{}}\PY{p}{,} \PY{n}{repos} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{http://cran.us.r\PYZhy{}project.org\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Updating HTML index of packages in '.Library'
+Making 'packages.html' {\ldots} done
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{c+c1}{\PYZsh{}Install packages caret}
+        \PY{n+nf}{install.packages}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{caret\PYZdq{}}\PY{p}{,} \PY{n}{repos} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{http://cran.us.r\PYZhy{}project.org\PYZdq{}}\PY{p}{,} \PY{n}{dependencies}\PY{o}{=}\PY{k+kc}{TRUE}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Updating HTML index of packages in '.Library'
+Making 'packages.html' {\ldots} done
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{c+c1}{\PYZsh{}Install library}
+        \PY{n+nf}{library}\PY{p}{(}\PY{n}{tidyverse}\PY{p}{)}
+        \PY{n+nf}{library}\PY{p}{(}\PY{n}{caret}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Warning message in system("timedatectl", intern = TRUE):
+“running command 'timedatectl' had status 1”── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+✔ ggplot2 3.3.3     ✔ purrr   0.3.4
+✔ tibble  3.1.2     ✔ dplyr   1.0.6
+✔ tidyr   1.1.3     ✔ stringr 1.4.0
+✔ readr   1.4.0     ✔ forcats 0.5.1
+── Conflicts ────────────────────────────────────────── tidyverse\_conflicts() ──
+✖ dplyr::filter()     masks stats::filter()
+✖ dplyr::group\_rows() masks kableExtra::group\_rows()
+✖ dplyr::lag()        masks stats::lag()
+Loading required package: lattice
+
+Attaching package: ‘caret’
+
+The following object is masked from ‘package:purrr’:
+
+    lift
+
+
+    \end{Verbatim}
+
+    \section{}\label{section}
+
+    \subsection{2. DataSet Downloading}\label{dataset-downloading}
+
+    Data set is from the web
+http://files.grouplens.org/datasets/movielens/ml-10m.zip", and it is
+stored in temporary file.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{c+c1}{\PYZsh{}download data set Movielens}
+        \PY{n}{dl} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{tempfile}\PY{p}{(}\PY{p}{)}
+         \PY{n+nf}{download.file}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{http://files.grouplens.org/datasets/movielens/ml\PYZhy{}10m.zip\PYZdq{}}\PY{p}{,} \PY{n}{dl}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{c+c1}{\PYZsh{}Read table}
+        \PY{n}{ratings} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{read.table}\PY{p}{(}\PY{n}{text} \PY{o}{=} \PY{n+nf}{gsub}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{::\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZbs{}t\PYZdq{}}\PY{p}{,} \PY{n+nf}{readLines}\PY{p}{(}\PY{n+nf}{unzip}\PY{p}{(}\PY{n}{dl}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{ml\PYZhy{}10M100K/ratings.dat\PYZdq{}}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                              \PY{n}{col.names} \PY{o}{=} \PY{n+nf}{c}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{userId\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{movieId\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{rating\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{timestamp\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{c+c1}{\PYZsh{}Split dataset}
+         \PY{n}{movies} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{str\PYZus{}split\PYZus{}fixed}\PY{p}{(}\PY{n+nf}{readLines}\PY{p}{(}\PY{n+nf}{unzip}\PY{p}{(}\PY{n}{dl}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{ml\PYZhy{}10M100K/movies.dat\PYZdq{}}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZbs{}\PYZbs{}::\PYZdq{}}\PY{p}{,} \PY{l+m}{3}\PY{p}{)}
+         \PY{n+nf}{colnames}\PY{p}{(}\PY{n}{movies}\PY{p}{)} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{c}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{movieId\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{title\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{genres\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{c+c1}{\PYZsh{}Mutate, rename title}
+         \PY{n}{movies} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{as.data.frame}\PY{p}{(}\PY{n}{movies}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{mutate}\PY{p}{(}\PY{n}{movieId} \PY{o}{=} \PY{n+nf}{as.numeric}\PY{p}{(}\PY{n+nf}{levels}\PY{p}{(}\PY{n}{movieId}\PY{p}{)}\PY{p}{)}\PY{n}{[movieId}\PY{n}{]}\PY{p}{,}
+                                                     \PY{n}{title} \PY{o}{=} \PY{n+nf}{as.character}\PY{p}{(}\PY{n}{title}\PY{p}{)}\PY{p}{,}
+                                                     \PY{n}{genres} \PY{o}{=} \PY{n+nf}{as.character}\PY{p}{(}\PY{n}{genres}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{n}{movielens} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{ratings}\PY{p}{,} \PY{n}{movies}\PY{p}{,} \PY{n}{by} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{movieId\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \#\#\#
+
+Split and Validation:
+
+\begin{verbatim}
+Prepared the Movilens dataset split and validation by 10%. 
+\end{verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{c+c1}{\PYZsh{} Validation set will be 10\PYZpc{} of MovieLens data}
+         \PY{n+nf}{set.seed}\PY{p}{(}\PY{l+m}{1}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} if using R 3.5 or earlier, use `set.seed(1)` instead}
+         \PY{n}{test\PYZus{}index} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{createDataPartition}\PY{p}{(}\PY{n}{y} \PY{o}{=} \PY{n}{movielens}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{,} \PY{n}{times} \PY{o}{=} \PY{l+m}{1}\PY{p}{,} \PY{n}{p} \PY{o}{=} \PY{l+m}{0.1}\PY{p}{,} \PY{n}{list} \PY{o}{=} \PY{k+kc}{FALSE}\PY{p}{)}
+          \PY{n}{edx} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{movielens}\PY{n}{[}\PY{o}{\PYZhy{}}\PY{n}{test\PYZus{}index}\PY{p}{,}\PY{n}{]}
+          \PY{n}{temp} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{movielens}\PY{n}{[test\PYZus{}index}\PY{p}{,}\PY{n}{]}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{c+c1}{\PYZsh{} Make sure userId and movieId in validation set are also in edx set}
+         \PY{n}{validation} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{temp} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+               \PY{n+nf}{semi\PYZus{}join}\PY{p}{(}\PY{n}{edx}\PY{p}{,} \PY{n}{by} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{movieId\PYZdq{}}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+               \PY{n+nf}{semi\PYZus{}join}\PY{p}{(}\PY{n}{edx}\PY{p}{,} \PY{n}{by} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{userId\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{c+c1}{\PYZsh{} Add rows removed from validation set back into edx set}
+         \PY{n}{removed} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{anti\PYZus{}join}\PY{p}{(}\PY{n}{temp}\PY{p}{,} \PY{n}{validation}\PY{p}{)}
+          \PY{n}{edx} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{rbind}\PY{p}{(}\PY{n}{edx}\PY{p}{,} \PY{n}{removed}\PY{p}{)}
+         
+         \PY{n+nf}{rm}\PY{p}{(}\PY{n}{dl}\PY{p}{,} \PY{n}{ratings}\PY{p}{,} \PY{n}{movies}\PY{p}{,} \PY{n}{test\PYZus{}index}\PY{p}{,} \PY{n}{temp}\PY{p}{,} \PY{n}{movielens}\PY{p}{,} \PY{n}{removed}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Joining, by = c("userId", "movieId", "rating", "timestamp", "title", "genres")
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{c+c1}{\PYZsh{}validation dataset}
+         \PY{n}{validation}  \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{validation} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{select}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{rating}\PY{p}{)}
+\end{Verbatim}
+
+    \section{}\label{section}
+
+    \section{3. Data Cleansing}\label{data-cleansing}
+
+    Verify nan values in Edx validation dataframes:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{n}{na\PYZus{}edx} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{sapply}\PY{p}{(}\PY{n}{edx}\PY{p}{,} \PY{n+nf}{function}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{n+nf}{sum}\PY{p}{(}\PY{n+nf}{is.na}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{na\PYZus{}validation} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{sapply}\PY{p}{(}\PY{n}{validation}\PY{p}{,} \PY{n+nf}{function}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{n+nf}{sum}\PY{p}{(}\PY{n+nf}{is.na}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n+nf}{print}\PY{p}{(}\PY{n}{na\PYZus{}edx}\PY{p}{,} \PY{n}{na\PYZus{}validation}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+   userId   movieId    rating timestamp     title    genres 
+        0         0         0         0         0         0 
+
+    \end{Verbatim}
+
+    \section{4. Basic information at Data
+Set}\label{basic-information-at-data-set}
+
+    Acquire information by exploring and analyzing the dataset,
+understanding the effects of the different variables.
+
+    \section{How many rows and columns are there in the edx
+dataset?}\label{how-many-rows-and-columns-are-there-in-the-edx-dataset}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{c+c1}{\PYZsh{}To see more information about the dataset}
+         \PY{n+nf}{head}\PY{p}{(}\PY{n}{edx}\PY{p}{,} \PY{l+m}{5}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{tabular}{r|llllll}
+ userId & movieId & rating & timestamp & title & genres\\
+\hline
+	 1                                      & 122                                    & 5                                      & 838985046                              & Boomerang (1992)                       & Comedy\textbar{}Romance              \\
+	 1                                                & 185                                              & 5                                                & 838983525                                        & Net, The (1995)                                  & Action\textbar{}Crime\textbar{}Thriller       \\
+	 1                            & 231                          & 5                            & 838983392                    & Dumb \& Dumber (1994)       & Comedy                      \\
+	 1                                                          & 292                                                        & 5                                                          & 838983421                                                  & Outbreak (1995)                                            & Action\textbar{}Drama\textbar{}Sci-Fi\textbar{}Thriller\\
+	 1                                                & 316                                              & 5                                                & 838983392                                        & Stargate (1994)                                  & Action\textbar{}Adventure\textbar{}Sci-Fi     \\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{c+c1}{\PYZsh{}General information about dataset}
+         \PY{n+nf}{summary}\PY{p}{(}\PY{n}{edx}\PY{p}{)}
+\end{Verbatim}
+
+    
+    \begin{verbatim}
+     userId         movieId          rating        timestamp        
+ Min.   :    1   Min.   :    1   Min.   :0.500   Min.   :7.897e+08  
+ 1st Qu.:18122   1st Qu.:  648   1st Qu.:3.000   1st Qu.:9.468e+08  
+ Median :35743   Median : 1834   Median :4.000   Median :1.035e+09  
+ Mean   :35869   Mean   : 4120   Mean   :3.512   Mean   :1.033e+09  
+ 3rd Qu.:53602   3rd Qu.: 3624   3rd Qu.:4.000   3rd Qu.:1.127e+09  
+ Max.   :71567   Max.   :65133   Max.   :5.000   Max.   :1.231e+09  
+    title              genres         
+ Length:9000061     Length:9000061    
+ Class :character   Class :character  
+ Mode  :character   Mode  :character  
+                                      
+                                      
+                                      
+    \end{verbatim}
+
+    
+    The edx data has 9,000,055 rows or observations and 6 columns or
+variables. 69,878 users rated one, 797 genres, and more of the 10,677
+movies. Each row represents one user's rating to a single movie.
+
+The UserId has Median 35743, while Median is 1834 by MovieId, rating is
+4.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{c+c1}{\PYZsh{}How many rows and columns are there in the edx dataset}
+         \PY{n+nf}{paste}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{The edx dataset has\PYZsq{}}\PY{p}{,}\PY{n+nf}{nrow}\PY{p}{(}\PY{n}{edx}\PY{p}{)}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{rows and\PYZsq{}}\PY{p}{,}\PY{n+nf}{ncol}\PY{p}{(}\PY{n}{edx}\PY{p}{)}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{columns.\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+    'The edx dataset has 9000061 rows and 6 columns.'
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{c+c1}{\PYZsh{}To see more information about dataset}
+         \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{summarise}\PY{p}{(}
+           \PY{n}{uniq\PYZus{}movies} \PY{o}{=} \PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{movieId}\PY{p}{)}\PY{p}{,}
+           \PY{n}{uniq\PYZus{}users} \PY{o}{=} \PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{userId}\PY{p}{)}\PY{p}{,}
+           \PY{n}{uniq\PYZus{}genres} \PY{o}{=} \PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{genres}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{tabular}{r|lll}
+ uniq\_movies & uniq\_users & uniq\_genres\\
+\hline
+	 10677 & 69878 & 797  \\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}22}]:} \PY{c+c1}{\PYZsh{}Mean or average of rating dataset}
+         \PY{n}{rating\PYZus{}mean} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{mean}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{)}
+         \PY{n}{rating\PYZus{}mean}
+\end{Verbatim}
+
+    3.51246397107753
+
+    
+    \section{How many zeros were given as ratings in the edx
+dataset?}\label{how-many-zeros-were-given-as-ratings-in-the-edx-dataset}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}23}]:} \PY{c+c1}{\PYZsh{}How many zeros were given as ratings in the edx dataset.}
+         \PY{n+nf}{paste}\PY{p}{(}\PY{n+nf}{sum}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{rating} \PY{o}{==} \PY{l+m}{0}\PY{p}{)}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{ratings with 0 were given and\PYZsq{}}\PY{p}{,}
+               \PY{n+nf}{sum}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{rating} \PY{o}{==} \PY{l+m}{3}\PY{p}{)}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{ratings with 3\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+    '0 ratings with 0 were given and 2121638 ratings with 3'
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}24}]:} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{filter}\PY{p}{(}\PY{n}{rating} \PY{o}{==} \PY{l+m}{3}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{tally}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{tabular}{r|l}
+ n\\
+\hline
+	 2121638\\
+\end{tabular}
+
+
+    
+    \section{How many different movies are in the edx
+dataset?}\label{how-many-different-movies-are-in-the-edx-dataset}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}25}]:} \PY{c+c1}{\PYZsh{}How many different movies are in the edx dataset}
+         \PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{movieId}\PY{p}{)}
+\end{Verbatim}
+
+    10677
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}26}]:} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{summarize}\PY{p}{(}\PY{n}{n\PYZus{}movies} \PY{o}{=} \PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{movieId}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{tabular}{r|l}
+ n\_movies\\
+\hline
+	 10677\\
+\end{tabular}
+
+
+    
+    \section{How many different users are in the edx
+dataset?}\label{how-many-different-users-are-in-the-edx-dataset}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}27}]:} \PY{c+c1}{\PYZsh{}How many different users are in the edx dataset. n\PYZus{}distinct or lenght}
+         \PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{userId}\PY{p}{)}
+\end{Verbatim}
+
+    69878
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}28}]:} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{summarize}\PY{p}{(}\PY{n}{n\PYZus{}users} \PY{o}{=} \PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{userId}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{tabular}{r|l}
+ n\_users\\
+\hline
+	 69878\\
+\end{tabular}
+
+
+    
+    \section{How many movie ratings are in each of the following genres in
+the edx
+dataset?}\label{how-many-movie-ratings-are-in-each-of-the-following-genres-in-the-edx-dataset}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}29}]:} \PY{c+c1}{\PYZsh{} str\PYZus{}detect}
+         \PY{n}{genres} \PY{o}{=} \PY{n+nf}{c}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Drama\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{Comedy\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{Thriller\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{Romance\PYZdq{}}\PY{p}{)}
+         \PY{n+nf}{sapply}\PY{p}{(}\PY{n}{genres}\PY{p}{,} \PY{n+nf}{function}\PY{p}{(}\PY{n}{g}\PY{p}{)} \PY{p}{\PYZob{}}
+             \PY{n+nf}{sum}\PY{p}{(}\PY{n+nf}{str\PYZus{}detect}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{genres}\PY{p}{,} \PY{n}{g}\PY{p}{)}\PY{p}{)}
+         \PY{p}{\PYZcb{}}\PY{p}{)}
+                   
+         \PY{c+c1}{\PYZsh{} separate\PYZus{}rows, much slower.}
+         \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{separate\PYZus{}rows}\PY{p}{(}\PY{n}{genres}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZbs{}\PYZbs{}|\PYZdq{}}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{genres}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{summarize}\PY{p}{(}\PY{n}{count} \PY{o}{=} \PY{n+nf}{n}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{arrange}\PY{p}{(}\PY{n+nf}{desc}\PY{p}{(}\PY{n}{count}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{description*}
+\item[Drama] 3909401
+\item[Comedy] 3541284
+\item[Thriller] 2325349
+\item[Romance] 1712232
+\end{description*}
+
+
+    
+    \begin{tabular}{r|ll}
+ genres & count\\
+\hline
+	 Drama              & 3909401           \\
+	 Comedy             & 3541284           \\
+	 Action             & 2560649           \\
+	 Thriller           & 2325349           \\
+	 Adventure          & 1908692           \\
+	 Romance            & 1712232           \\
+	 Sci-Fi             & 1341750           \\
+	 Crime              & 1326917           \\
+	 Fantasy            &  925624           \\
+	 Children           &  737851           \\
+	 Horror             &  691407           \\
+	 Mystery            &  567865           \\
+	 War                &  511330           \\
+	 Animation          &  467220           \\
+	 Musical            &  432960           \\
+	 Western            &  189234           \\
+	 Film-Noir          &  118394           \\
+	 Documentary        &   93252           \\
+	 IMAX               &    8190           \\
+	 (no genres listed) &       6           \\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}30}]:} \PY{c+c1}{\PYZsh{}Movie ratings by Drama. str\PYZus{}detect Detect The Presence Or Absence Of A Pattern In A String.}
+         \PY{n}{drama} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{filter}\PY{p}{(}\PY{n+nf}{str\PYZus{}detect}\PY{p}{(}\PY{n}{genres}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{Drama\PYZdq{}}\PY{p}{)}\PY{p}{)}
+         \PY{n+nf}{paste}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Drama has\PYZsq{}}\PY{p}{,}\PY{n+nf}{nrow}\PY{p}{(}\PY{n}{drama}\PY{p}{)}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{movies\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+    'Drama has 3909401 movies'
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}31}]:} \PY{c+c1}{\PYZsh{}Movie ratings by Comedy}
+         \PY{n}{comedy} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{filter}\PY{p}{(}\PY{n+nf}{str\PYZus{}detect}\PY{p}{(}\PY{n}{genres}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{Comedy\PYZdq{}}\PY{p}{)}\PY{p}{)}
+         \PY{n+nf}{paste}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Comedy has\PYZsq{}}\PY{p}{,}\PY{n+nf}{nrow}\PY{p}{(}\PY{n}{comedy}\PY{p}{)}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{movies\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+    'Comedy has 3541284 movies'
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}32}]:} \PY{c+c1}{\PYZsh{}\PYZsh{}Movie ratings by Thriller}
+         \PY{n}{thriller} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{filter}\PY{p}{(}\PY{n+nf}{str\PYZus{}detect}\PY{p}{(}\PY{n}{genres}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{Thriller\PYZdq{}}\PY{p}{)}\PY{p}{)}
+         \PY{n+nf}{paste}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Thriller has\PYZsq{}}\PY{p}{,}\PY{n+nf}{nrow}\PY{p}{(}\PY{n}{thriller}\PY{p}{)}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{movies\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+    'Thriller has 2325349 movies'
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}33}]:} \PY{c+c1}{\PYZsh{}Movie ratings by Romance}
+         \PY{n}{romance} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{filter}\PY{p}{(}\PY{n+nf}{str\PYZus{}detect}\PY{p}{(}\PY{n}{genres}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{Romance\PYZdq{}}\PY{p}{)}\PY{p}{)}
+         \PY{n+nf}{paste}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Romance has\PYZsq{}}\PY{p}{,}\PY{n+nf}{nrow}\PY{p}{(}\PY{n}{romance}\PY{p}{)}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{movies\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+    'Romance has 1712232 movies'
+
+    
+    \section{}\label{section}
+
+    \section{VARIABLE ANALYSIS BY RATING}\label{variable-analysis-by-rating}
+
+    Find any insights to develop the recommendation model. The qualification
+is the classification of the information that allows it to be evaluated
+and valued based on a comparative evaluation of its standard quality or
+performance, quantity, or its combination. In the Movilens data set, the
+rating has a numerical ordinal scale of 0.5 to 5 stars from movie
+viewers. The maximum rating they give 5 stars or less if they do not
+like the movie.
+
+    \section{Which movie has the greatest number of
+ratings?}\label{which-movie-has-the-greatest-number-of-ratings}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}34}]:} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{rating}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+         \PY{n+nf}{summarize}\PY{p}{(}\PY{n}{n}\PY{o}{=}\PY{n+nf}{n}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{tabular}{r|ll}
+ rating & n\\
+\hline
+	 0.5     &   85420\\
+	 1.0     &  345935\\
+	 1.5     &  106379\\
+	 2.0     &  710998\\
+	 2.5     &  332783\\
+	 3.0     & 2121638\\
+	 3.5     &  792037\\
+	 4.0     & 2588021\\
+	 4.5     &  526309\\
+	 5.0     & 1390541\\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}35}]:} \PY{c+c1}{\PYZsh{}Greatest number of ratings. Arrange rows by variables}
+         \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{title}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+         \PY{n+nf}{summarise}\PY{p}{(}\PY{n}{number} \PY{o}{=} \PY{n+nf}{n}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+         \PY{n+nf}{arrange}\PY{p}{(}\PY{n+nf}{desc}\PY{p}{(}\PY{n}{number}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{tabular}{r|ll}
+ title & number\\
+\hline
+	 Pulp Fiction (1994)                                                            & 31336                                                                         \\
+	 Forrest Gump (1994)                                                            & 31076                                                                         \\
+	 Silence of the Lambs, The (1991)                                               & 30280                                                                         \\
+	 Jurassic Park (1993)                                                           & 29291                                                                         \\
+	 Shawshank Redemption, The (1994)                                               & 27988                                                                         \\
+	 Braveheart (1995)                                                              & 26258                                                                         \\
+	 Terminator 2: Judgment Day (1991)                                              & 26115                                                                         \\
+	 Fugitive, The (1993)                                                           & 26050                                                                         \\
+	 Star Wars: Episode IV - A New Hope (a.k.a. Star Wars) (1977)                   & 25809                                                                         \\
+	 Batman (1989)                                                                  & 24343                                                                         \\
+	 Apollo 13 (1995)                                                               & 24277                                                                         \\
+	 Toy Story (1995)                                                               & 23826                                                                         \\
+	 Independence Day (a.k.a. ID4) (1996)                                           & 23360                                                                         \\
+	 Dances with Wolves (1990)                                                      & 23312                                                                         \\
+	 Schindler's List (1993)                                                        & 23234                                                                         \\
+	 True Lies (1994)                                                               & 22786                                                                         \\
+	 Star Wars: Episode VI - Return of the Jedi (1983)                              & 22629                                                                         \\
+	 12 Monkeys (Twelve Monkeys) (1995)                                             & 21959                                                                         \\
+	 Usual Suspects, The (1995)                                                     & 21533                                                                         \\
+	 Speed (1994)                                                                   & 21384                                                                         \\
+	 Fargo (1996)                                                                   & 21370                                                                         \\
+	 Aladdin (1992)                                                                 & 21214                                                                         \\
+	 Matrix, The (1999)                                                             & 20894                                                                         \\
+	 Star Wars: Episode V - The Empire Strikes Back (1980)                          & 20836                                                                         \\
+	 Seven (a.k.a. Se7en) (1995)                                                    & 20271                                                                         \\
+	 American Beauty (1999)                                                         & 19859                                                                         \\
+	 Raiders of the Lost Ark (Indiana Jones and the Raiders of the Lost Ark) (1981) & 19604                                                                         \\
+	 Back to the Future (1985)                                                      & 19141                                                                         \\
+	 Mission: Impossible (1996)                                                     & 18969                                                                         \\
+	 Ace Ventura: Pet Detective (1994)                                              & 18907                                                                         \\
+	 ... & ...\\
+	 Nazis Strike, The (Why We Fight, 2) (1943)            & 1                                                    \\
+	 Neil Young: Human Highway (1982)                      & 1                                                    \\
+	 Once in the Life (2000)                               & 1                                                    \\
+	 One Hour with You (1932)                              & 1                                                    \\
+	 Part of the Weekend Never Dies (2008)                 & 1                                                    \\
+	 Please Vote for Me (2007)                             & 1                                                    \\
+	 Prelude to War (Why We Fight, 1) (1943)               & 1                                                    \\
+	 Prisoner of Paradise (2002)                           & 1                                                    \\
+	 Quiet City (2007)                                     & 1                                                    \\
+	 Relative Strangers (2006)                             & 1                                                    \\
+	 Revenge of the Ninja (1983)                           & 1                                                    \\
+	 Ring of Darkness (2004)                               & 1                                                    \\
+	 Rockin' in the Rockies (1945)                         & 1                                                    \\
+	 Säg att du älskar mig (2006)                          & 1                                                    \\
+	 Shadows of Forgotten Ancestors (1964)                 & 1                                                    \\
+	 Splinter (2008)                                       & 1                                                    \\
+	 Spooky House (2000)                                   & 1                                                    \\
+	 Stacy's Knights (1982)                                & 1                                                    \\
+	 Sun Alley (Sonnenallee) (1999)                        & 1                                                    \\
+	 Symbiopsychotaxiplasm: Take One (1968)                & 1                                                    \\
+	 Testament of Orpheus, The (Testament d'Orphée) (1960) & 1                                                    \\
+	 Thérèse (2004)                                        & 1                                                    \\
+	 Tokyo! (2008)                                         & 1                                                    \\
+	 Train Ride to Hollywood (1978)                        & 1                                                    \\
+	 Variety Lights (Luci del varietà) (1950)              & 1                                                    \\
+	 Where A Good Man Goes (Joi gin a long) (1999)         & 1                                                    \\
+	 Wings of Eagles, The (1957)                           & 1                                                    \\
+	 Women of the Night (Yoru no onnatachi) (1948)         & 1                                                    \\
+	 Won't Anybody Listen? (2000)                          & 1                                                    \\
+	 Zona Zamfirova (2002)                                 & 1                                                    \\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}36}]:} \PY{n+nf}{head}\PY{p}{(}\PY{n+nf}{sort}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n+nf}{table}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{l+m}{5}\PY{p}{)}
+         \PY{n+nf}{hist}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{)}
+         \PY{n+nf}{summary}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{)}
+\end{Verbatim}
+
+    
+    \begin{verbatim}
+
+       4        3        5      3.5        2 
+-2588021 -2121638 -1390541  -792037  -710998 
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.500   3.000   4.000   3.512   4.000   5.000 
+    \end{verbatim}
+
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_62_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}37}]:} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}  \PY{c+c1}{\PYZsh{} Ratings Distribution:}
+           \PY{n+nf}{ggplot}\PY{p}{(}\PY{n+nf}{aes}\PY{p}{(}\PY{n}{rating}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+           \PY{n+nf}{geom\PYZus{}histogram}\PY{p}{(}\PY{n}{binwidth} \PY{o}{=} \PY{l+m}{0.15}\PY{p}{,} \PY{n}{color} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{yellow\PYZdq{}}\PY{p}{)} \PY{o}{+}
+           \PY{n+nf}{scale\PYZus{}x\PYZus{}discrete}\PY{p}{(}\PY{n}{limits} \PY{o}{=} \PY{n+nf}{c}\PY{p}{(}\PY{n+nf}{seq}\PY{p}{(}\PY{l+m}{0.5}\PY{p}{,}\PY{l+m}{5}\PY{p}{,}\PY{l+m}{0.5}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+           \PY{n+nf}{scale\PYZus{}y\PYZus{}continuous}\PY{p}{(}\PY{n}{breaks} \PY{o}{=} \PY{n+nf}{c}\PY{p}{(}\PY{n+nf}{seq}\PY{p}{(}\PY{l+m}{0}\PY{p}{,} \PY{l+m}{3000000}\PY{p}{,} \PY{l+m}{500000}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+           \PY{n+nf}{ggtitle}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Graphic Rating Distribution\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Warning message:
+“Continuous limits supplied to discrete scale.
+Did you mean `limits = factor({\ldots})` or `scale\_*\_continuous()`?”
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_63_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \section{What are the five most given ratings in order from most to
+least?}\label{what-are-the-five-most-given-ratings-in-order-from-most-to-least}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}38}]:} \PY{c+c1}{\PYZsh{}Sort a variable in descending order.}
+         \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{rating}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+         \PY{n+nf}{summarize}\PY{p}{(}\PY{n}{count} \PY{o}{=} \PY{n+nf}{n}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+         \PY{n+nf}{top\PYZus{}n}\PY{p}{(}\PY{l+m}{5}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+         \PY{n+nf}{arrange}\PY{p}{(}\PY{n+nf}{desc}\PY{p}{(}\PY{n}{count}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Selecting by count
+
+    \end{Verbatim}
+
+    \begin{tabular}{r|ll}
+ rating & count\\
+\hline
+	 4.0     & 2588021\\
+	 3.0     & 2121638\\
+	 5.0     & 1390541\\
+	 3.5     &  792037\\
+	 2.0     &  710998\\
+\end{tabular}
+
+
+    
+    \section{True or False: In general, half star ratings are less common
+than whole star ratings (e.g., there are fewer ratings of 3.5 than there
+are ratings of 3 or 4,
+etc.).}\label{true-or-false-in-general-half-star-ratings-are-less-common-than-whole-star-ratings-e.g.-there-are-fewer-ratings-of-3.5-than-there-are-ratings-of-3-or-4-etc..}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}39}]:} \PY{c+c1}{\PYZsh{}Rating movies}
+         \PY{n}{rating4} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{table}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{)}\PY{n}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{4\PYZdq{}}\PY{n}{]}
+         \PY{n}{rating35} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{table}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{)}\PY{n}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{3.5\PYZdq{}}\PY{n}{]}
+         \PY{n}{rating3} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{table}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{)}\PY{n}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{3\PYZdq{}}\PY{n}{]}
+         
+         \PY{n}{Result} \PY{o}{\PYZlt{}\PYZhy{}} \PY{p}{(}\PY{n}{rating35} \PY{o}{\PYZlt{}} \PY{n}{rating3} \PY{o}{\PYZam{}\PYZam{}} \PY{n}{rating35} \PY{o}{\PYZlt{}} \PY{n}{rating4}\PY{p}{)}
+         
+         \PY{n+nf}{print}\PY{p}{(}\PY{n}{Result}\PY{p}{)}
+         
+         \PY{n+nf}{rm}\PY{p}{(}\PY{n}{rating35}\PY{p}{,} \PY{n}{rating3}\PY{p}{,} \PY{n}{rating4}\PY{p}{,} \PY{n}{Result}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[1] TRUE
+
+    \end{Verbatim}
+
+    \section{Graphic Rating movies}\label{graphic-rating-movies}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}40}]:} \PY{c+c1}{\PYZsh{}Graphic Rating movies}
+         \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{rating}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{summarize}\PY{p}{(}\PY{n}{count} \PY{o}{=} \PY{n+nf}{n}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{ggplot}\PY{p}{(}\PY{n+nf}{aes}\PY{p}{(}\PY{n}{x} \PY{o}{=} \PY{n}{rating}\PY{p}{,} \PY{n}{y} \PY{o}{=} \PY{n}{count}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+             \PY{n+nf}{geom\PYZus{}line}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_69_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \section{Plot mean movie ratings given by
+users}\label{plot-mean-movie-ratings-given-by-users}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}41}]:} \PY{c+c1}{\PYZsh{} Plot mean movie ratings given by users}
+         \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{userId}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{filter}\PY{p}{(}\PY{n+nf}{n}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZgt{}=} \PY{l+m}{100}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{summarize}\PY{p}{(}\PY{n}{b\PYZus{}u} \PY{o}{=} \PY{n+nf}{mean}\PY{p}{(}\PY{n}{rating}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{ggplot}\PY{p}{(}\PY{n+nf}{aes}\PY{p}{(}\PY{n}{b\PYZus{}u}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+           \PY{n+nf}{geom\PYZus{}histogram}\PY{p}{(}\PY{n}{bins} \PY{o}{=} \PY{l+m}{30}\PY{p}{,} \PY{n}{color} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{yellow\PYZdq{}}\PY{p}{)} \PY{o}{+}
+           \PY{n+nf}{xlab}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Mean rating\PYZdq{}}\PY{p}{)} \PY{o}{+}
+           \PY{n+nf}{ylab}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Number of users\PYZdq{}}\PY{p}{)} \PY{o}{+}
+           \PY{n+nf}{ggtitle}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Ratings by users\PYZdq{}}\PY{p}{)} \PY{o}{+}
+           \PY{n+nf}{scale\PYZus{}x\PYZus{}discrete}\PY{p}{(}\PY{n}{limits} \PY{o}{=} \PY{n+nf}{c}\PY{p}{(}\PY{n+nf}{seq}\PY{p}{(}\PY{l+m}{0.5}\PY{p}{,}\PY{l+m}{5}\PY{p}{,}\PY{l+m}{0.5}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+           \PY{n+nf}{theme\PYZus{}light}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Warning message:
+“Continuous limits supplied to discrete scale.
+Did you mean `limits = factor({\ldots})` or `scale\_*\_continuous()`?”
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_71_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}42}]:} \PY{n}{dl} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{tempfile}\PY{p}{(}\PY{p}{)}
+         \PY{n+nf}{download.file}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{http://files.grouplens.org/datasets/movielens/ml\PYZhy{}10m.zip\PYZdq{}}\PY{p}{,} \PY{n}{dl}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}43}]:} \PY{n}{ratings} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{read.table}\PY{p}{(}\PY{n}{text} \PY{o}{=} \PY{n+nf}{gsub}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{::\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZbs{}t\PYZdq{}}\PY{p}{,} \PY{n+nf}{readLines}\PY{p}{(}\PY{n+nf}{unzip}\PY{p}{(}\PY{n}{dl}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{ml\PYZhy{}10M100K/ratings.dat\PYZdq{}}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                               \PY{n}{col.names} \PY{o}{=} \PY{n+nf}{c}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{userId\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{movieId\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{rating\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{timestamp\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}44}]:} \PY{c+c1}{\PYZsh{}Create DAT for graphic and see categories by genres and years}
+         \PY{n}{movies} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{str\PYZus{}split\PYZus{}fixed}\PY{p}{(}\PY{n+nf}{readLines}\PY{p}{(}\PY{n+nf}{unzip}\PY{p}{(}\PY{n}{dl}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{ml\PYZhy{}10M100K/movies.dat\PYZdq{}}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZbs{}\PYZbs{}::\PYZdq{}}\PY{p}{,} \PY{l+m}{3}\PY{p}{)}
+         \PY{n+nf}{colnames}\PY{p}{(}\PY{n}{movies}\PY{p}{)} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{c}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{movieId\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{title\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{genres\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{movies} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{as.data.frame}\PY{p}{(}\PY{n}{movies}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+         \PY{n+nf}{mutate}\PY{p}{(}\PY{n}{movieId} \PY{o}{=} \PY{n+nf}{as.numeric}\PY{p}{(}\PY{n+nf}{levels}\PY{p}{(}\PY{n}{movieId}\PY{p}{)}\PY{p}{)}\PY{n}{[movieId}\PY{n}{]}\PY{p}{,}
+                                                    \PY{n}{title} \PY{o}{=} \PY{n+nf}{as.character}\PY{p}{(}\PY{n}{title}\PY{p}{)}\PY{p}{,}
+                                                    \PY{n}{genres} \PY{o}{=} \PY{n+nf}{as.character}\PY{p}{(}\PY{n}{genres}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{movielens} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{ratings}\PY{p}{,} \PY{n}{movies}\PY{p}{,} \PY{n}{by} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{movieId\PYZdq{}}\PY{p}{)}
+         \PY{n}{ratings} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{read.table}\PY{p}{(}\PY{n}{text} \PY{o}{=} \PY{n+nf}{gsub}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{::\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZbs{}t\PYZdq{}}\PY{p}{,} \PY{n+nf}{readLines}\PY{p}{(}\PY{n+nf}{unzip}\PY{p}{(}\PY{n}{dl}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{ml\PYZhy{}10M100K/ratings.dat\PYZdq{}}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                               \PY{n}{col.names} \PY{o}{=} \PY{n+nf}{c}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{userId\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{movieId\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{rating\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{timestamp\PYZdq{}}\PY{p}{)}\PY{p}{)}
+                               
+         \PY{n}{dat} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{movies} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{separate\PYZus{}rows}\PY{p}{(}\PY{n}{genres}\PY{p}{,} \PY{n}{sep} \PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZbs{}\PYZbs{}|\PYZdq{}}\PY{p}{)}
+         \PY{n}{DAT.aggregate} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{aggregate}\PY{p}{(}\PY{n}{formula} \PY{o}{=} \PY{n+nf}{cbind}\PY{p}{(}\PY{n}{n} \PY{o}{=} \PY{l+m}{1}\PY{o}{:}\PY{n+nf}{nrow}\PY{p}{(}\PY{n}{dat}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZti{}} \PY{n}{genres}\PY{p}{,} \PY{n}{data} \PY{o}{=} \PY{n}{dat}\PY{p}{,} \PY{n}{FUN} \PY{o}{=} \PY{n}{length}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}45}]:} \PY{c+c1}{\PYZsh{}Size of dataset }
+         \PY{n}{movielens} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{ratings}\PY{p}{,} \PY{n}{movies}\PY{p}{,} \PY{n}{by} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{movieId\PYZdq{}}\PY{p}{)}
+         \PY{n+nf}{nrow}\PY{p}{(}\PY{n}{movielens}\PY{p}{)}
+\end{Verbatim}
+
+    10000054
+
+    
+    \section{Genres as Drama and Comedy have high
+rating.}\label{genres-as-drama-and-comedy-have-high-rating.}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}46}]:} \PY{c+c1}{\PYZsh{}Genres as Drama and Comedy have high rating.}
+         
+         \PY{n+nf}{ggplot}\PY{p}{(}\PY{n}{DAT.aggregate}\PY{p}{,}\PY{n+nf}{aes}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{n}{genres}\PY{p}{,}\PY{n}{y}\PY{o}{=}\PY{n}{n}\PY{p}{)}\PY{p}{)}\PY{o}{+}
+             \PY{n+nf}{geom\PYZus{}col}\PY{p}{(}\PY{n}{group}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{genres\PYZdq{}}\PY{p}{,}\PY{n}{alpha}\PY{o}{=}\PY{l+m}{0.8}\PY{p}{,}\PY{n}{fill} \PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{yellow\PYZdq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{white\PYZdq{}}\PY{p}{)}\PY{o}{+}
+             \PY{n+nf}{geom\PYZus{}text}\PY{p}{(}\PY{n}{label}\PY{o}{=}\PY{n}{DAT.aggregate}\PY{o}{\PYZdl{}}\PY{n}{n}\PY{p}{,}\PY{n}{angle}\PY{o}{=}\PY{l+m}{45}\PY{p}{,}\PY{n}{fontface} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{bold\PYZdq{}}\PY{p}{)}\PY{o}{+}
+         \PY{n+nf}{theme}\PY{p}{(}\PY{n}{axis.text.x}\PY{o}{=}\PY{n+nf}{element\PYZus{}text}\PY{p}{(}\PY{n}{angle} \PY{o}{=} \PY{l+m}{\PYZhy{}90}\PY{p}{,} \PY{n}{hjust} \PY{o}{=} \PY{l+m}{0}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_77_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}47}]:} \PY{c+c1}{\PYZsh{}Movies from the 1980s to 1990s and older have higher average ratings than recent movies.}
+         
+         \PY{n}{movielens}\PY{o}{\PYZdl{}}\PY{n}{year} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{as.numeric}\PY{p}{(}\PY{n+nf}{substr}\PY{p}{(}\PY{n+nf}{as.character}\PY{p}{(}\PY{n}{movielens}\PY{o}{\PYZdl{}}\PY{n}{title}\PY{p}{)}\PY{p}{,}
+                           \PY{n+nf}{nchar}\PY{p}{(}\PY{n+nf}{as.character}\PY{p}{(}\PY{n}{movielens}\PY{o}{\PYZdl{}}\PY{n}{title}\PY{p}{)}\PY{p}{)}\PY{l+m}{\PYZhy{}4}\PY{p}{,}
+                           \PY{n+nf}{nchar}\PY{p}{(}\PY{n+nf}{as.character}\PY{p}{(}\PY{n}{movielens}\PY{o}{\PYZdl{}}\PY{n}{title}\PY{p}{)}\PY{p}{)}\PY{l+m}{\PYZhy{}1}\PY{p}{)}\PY{p}{)}
+         \PY{n+nf}{plot}\PY{p}{(}\PY{n+nf}{table}\PY{p}{(}\PY{n}{movielens}\PY{o}{\PYZdl{}}\PY{n}{year}\PY{p}{)}\PY{p}{,}
+             \PY{n}{col} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{yellow\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_78_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \section{4. MODELING}\label{modeling}
+
+    \section{Predicted movie ratings and calculates
+RMSE.}\label{predicted-movie-ratings-and-calculates-rmse.}
+
+Movie rating predictions will be compared to the true ratings in the
+validation set using RMSE
+
+    \section{Model Approach}\label{model-approach}
+
+    Movilens is a very large database with different variables that have
+different effects on ratings. Genres have a significant effect on
+ratings, it is required to divide compound genres into individual genres
+and calculate the effect of each genre using relatively more complex
+calculations. Some movies have a very high number of ratings, while
+others have very few or low ratings. Coming from small samples -few
+numbers of grades- can adversely affect preaching. we will use a method
+known as Regularization to penalize of very high or low grades that come
+from small samples. Also, we will divide the edx dataset into two parts:
+train (80\%) and test (20\%), then we will use train to train the model
+and test to cross-validate and fit the model to get the best lambda
+value that results in a minimum RMSE.
+
+    Created partition the data set Edx into 20\% for test and 80\% for
+training set, this step prepared the data split to create the model.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}48}]:} \PY{c+c1}{\PYZsh{}Validation set will be 20\PYZpc{} of the movieLens data}
+         \PY{n+nf}{set.seed}\PY{p}{(}\PY{l+m}{2}\PY{p}{)} \PY{c+c1}{\PYZsh{}Partition dataset test and train}
+         \PY{n}{test\PYZus{}index} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{createDataPartition}\PY{p}{(}\PY{n}{y} \PY{o}{=} \PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{,} \PY{n}{times} \PY{o}{=} \PY{l+m}{2}\PY{p}{,} \PY{n}{p} \PY{o}{=} \PY{l+m}{0.1}\PY{p}{,} \PY{n}{list} \PY{o}{=} \PY{k+kc}{FALSE}\PY{p}{)}
+         \PY{n}{train} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{edx}\PY{n}{[}\PY{o}{\PYZhy{}}\PY{n}{test\PYZus{}index}\PY{p}{,}\PY{n}{]} \PY{c+c1}{\PYZsh{}train set}
+         \PY{n}{test} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{edx}\PY{n}{[test\PYZus{}index}\PY{p}{,}\PY{n}{]}   \PY{c+c1}{\PYZsh{}test set}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}49}]:} \PY{c+c1}{\PYZsh{}Define RMSE that mesure of how spread out thesse residuals are, or concentration the data around the linea of best fit.}
+         
+         \PY{n}{RMSE} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{function}\PY{p}{(}\PY{n}{true\PYZus{}ratings}\PY{p}{,} \PY{n}{predicted\PYZus{}ratings}\PY{p}{)}\PY{p}{\PYZob{}}
+         \PY{n+nf}{sqrt}\PY{p}{(}\PY{n+nf}{mean}\PY{p}{(}\PY{p}{(}\PY{n}{true\PYZus{}ratings} \PY{o}{\PYZhy{}} \PY{n}{predicted\PYZus{}ratings}\PY{p}{)}\PY{n}{\PYZca{}2}\PY{p}{,}\PY{n}{na.rm} \PY{o}{=}\PY{k+kc}{TRUE}\PY{p}{)}\PY{p}{)}
+         \PY{p}{\PYZcb{}}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}51}]:} \PY{n}{mu} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{mean}\PY{p}{(}\PY{n}{train}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{)}  \PY{c+c1}{\PYZsh{}mean}
+         
+         \PY{n}{rmse\PYZus{}naive} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{RMSE}\PY{p}{(}\PY{n}{test}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{,} \PY{n}{mu}\PY{p}{)}  \PY{c+c1}{\PYZsh{}MODEL 1}
+         
+         \PY{n}{rmse\PYZus{}results} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{data\PYZus{}frame}\PY{p}{(}\PY{n}{method}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{Average NAIVE\PYZsq{}}\PY{p}{,} \PY{n}{RMSE}\PY{o}{=}\PY{n}{rmse\PYZus{}naive}\PY{p}{)}
+         \PY{n}{rmse\PYZus{}results}
+\end{Verbatim}
+
+    \begin{tabular}{r|ll}
+ method & RMSE\\
+\hline
+	 Average NAIVE & 1.060381     \\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}52}]:} \PY{c+c1}{\PYZsh{}Model by Movie average}
+         
+         \PY{n}{mu\PYZus{}m2} \PY{o}{\PYZlt{}\PYZhy{}}  \PY{n+nf}{mean}\PY{p}{(}\PY{n}{train}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{)} \PY{c+c1}{\PYZsh{}Model 2: Y u, i =?? + b i}
+         \PY{n}{movie\PYZus{}avgs} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{train}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{movieId}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{summarize}\PY{p}{(}\PY{n}{b\PYZus{}i}\PY{o}{=}\PY{n+nf}{mean}\PY{p}{(}\PY{n}{rating}\PY{o}{\PYZhy{}}\PY{n}{mu\PYZus{}m2}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{predicted\PYZus{}rating} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{mu\PYZus{}m2}\PY{o}{+}\PY{n}{test}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{movie\PYZus{}avgs}\PY{p}{,} \PY{n}{by}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{movieId\PYZsq{}}\PY{p}{)}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{pull}\PY{p}{(}\PY{n}{b\PYZus{}i}\PY{p}{)}
+         
+         \PY{n}{rmse\PYZus{}m2} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{RMSE}\PY{p}{(}\PY{n}{predicted\PYZus{}rating}\PY{p}{,} \PY{n}{test}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{)}
+         \PY{n}{rmse\PYZus{}results} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{bind\PYZus{}rows}\PY{p}{(}\PY{n}{rmse\PYZus{}results}\PY{p}{,} \PY{n+nf}{data\PYZus{}frame}\PY{p}{(}\PY{n}{method}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{Movie Effect Model\PYZsq{}}\PY{p}{,} \PY{n}{RMSE}\PY{o}{=}\PY{n}{rmse\PYZus{}m2}\PY{p}{)}\PY{p}{)}
+         \PY{n}{rmse\PYZus{}results}
+\end{Verbatim}
+
+    \begin{tabular}{r|ll}
+ method & RMSE\\
+\hline
+	 Average NAIVE      & 1.0603807         \\
+	 Movie Effect Model & 0.9435103         \\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}53}]:} \PY{c+c1}{\PYZsh{}Model by User average}
+         
+         \PY{n}{user\PYZus{}avgs} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{train}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{movie\PYZus{}avgs}\PY{p}{,} \PY{n}{by}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{movieId\PYZsq{}}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{c+c1}{\PYZsh{} Y u, i =??+b i +?? u, i w}
+           \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{userId}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{summarize}\PY{p}{(}\PY{n}{b\PYZus{}u}\PY{o}{=}\PY{n+nf}{mean}\PY{p}{(}\PY{n}{rating} \PY{o}{\PYZhy{}} \PY{n}{mu\PYZus{}m2} \PY{o}{\PYZhy{}} \PY{n}{b\PYZus{}i}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{predicted\PYZus{}ratings} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{test}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{movie\PYZus{}avgs}\PY{p}{,} \PY{n}{by}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{movieId\PYZsq{}}\PY{p}{)}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{user\PYZus{}avgs}\PY{p}{,} \PY{n}{by}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{userId\PYZsq{}}\PY{p}{)}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{mutate}\PY{p}{(}\PY{n}{pred}\PY{o}{=}\PY{n}{mu\PYZus{}m2} \PY{o}{+} \PY{n}{b\PYZus{}i} \PY{o}{+} \PY{n}{b\PYZus{}u}\PY{p}{)}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{pull}\PY{p}{(}\PY{n}{pred}\PY{p}{)}
+         
+         \PY{n}{rmse\PYZus{}m3} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{RMSE}\PY{p}{(}\PY{n}{predicted\PYZus{}ratings}\PY{p}{,} \PY{n}{test}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{)}
+         \PY{n}{rmse\PYZus{}results} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{bind\PYZus{}rows}\PY{p}{(}\PY{n}{rmse\PYZus{}results}\PY{p}{,} \PY{n+nf}{data\PYZus{}frame}\PY{p}{(}\PY{n}{method}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{Movie + User Effect Model\PYZsq{}}\PY{p}{,} \PY{n}{RMSE}\PY{o}{=}\PY{n}{rmse\PYZus{}m3}\PY{p}{)}\PY{p}{)}
+         \PY{n}{rmse\PYZus{}results}
+\end{Verbatim}
+
+    \begin{tabular}{r|ll}
+ method & RMSE\\
+\hline
+	 Average NAIVE             & 1.0603807                \\
+	 Movie Effect Model        & 0.9435103                \\
+	 Movie + User Effect Model & 0.8660346                \\
+\end{tabular}
+
+
+    
+    \section{RMSE USED VALIDATION SET}\label{rmse-used-validation-set}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}54}]:} \PY{n}{rating\PYZus{}vp} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{validation} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{movie\PYZus{}avgs}\PY{p}{,} \PY{n}{by} \PY{o}{=} \PY{l+s}{\PYZsq{}}\PY{l+s}{movieId\PYZsq{}}\PY{p}{)}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{user\PYZus{}avgs}\PY{p}{,} \PY{n}{by}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{userId\PYZsq{}}\PY{p}{)}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{mutate}\PY{p}{(}\PY{n}{pred}\PY{o}{=}\PY{n}{mu\PYZus{}m2} \PY{o}{+} \PY{n}{b\PYZus{}i} \PY{o}{+} \PY{n}{b\PYZus{}u}\PY{p}{)}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{pull}\PY{p}{(}\PY{n}{pred}\PY{p}{)}
+         
+         \PY{n}{validation\PYZus{}m3} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{RMSE}\PY{p}{(}\PY{n}{validation}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{,} \PY{n}{rating\PYZus{}vp}\PY{p}{)}
+         \PY{n}{rmse\PYZus{}results} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{bind\PYZus{}rows}\PY{p}{(}\PY{n}{rmse\PYZus{}results}\PY{p}{,} \PY{n+nf}{data\PYZus{}frame}\PY{p}{(}\PY{n}{Method}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{Validation\PYZsq{}}\PY{p}{,} \PY{n}{RMSE}\PY{o}{=}\PY{n}{validation\PYZus{}m3}\PY{p}{)}\PY{p}{)}
+         \PY{n}{rmse\PYZus{}results}
+\end{Verbatim}
+
+    \begin{tabular}{r|lll}
+ method & RMSE & Method\\
+\hline
+	 Average NAIVE             & 1.0603807                 & NA                       \\
+	 Movie Effect Model        & 0.9435103                 & NA                       \\
+	 Movie + User Effect Model & 0.8660346                 & NA                       \\
+	 NA                        &       NaN                 & Validation               \\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}55}]:} \PY{n}{edx} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{train} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{c+c1}{\PYZsh{} It extracts the release year of the movie.}
+           \PY{n+nf}{mutate}\PY{p}{(}\PY{n}{title} \PY{o}{=} \PY{n+nf}{str\PYZus{}trim}\PY{p}{(}\PY{n}{title}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{extract}\PY{p}{(}\PY{n}{title}\PY{p}{,} \PY{n+nf}{c}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{title\PYZus{}tmp\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{year\PYZdq{}}\PY{p}{)}\PY{p}{,}
+                   \PY{n}{regex} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZca{}(.*) \PYZbs{}\PYZbs{}(([0\PYZhy{}9 \PYZbs{}\PYZbs{}\PYZhy{}]*)\PYZbs{}\PYZbs{})\PYZdl{}\PYZdq{}}\PY{p}{,}
+                   \PY{n}{remove} \PY{o}{=} \PY{n+nb+bp}{F}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{mutate}\PY{p}{(}\PY{n}{year} \PY{o}{=} \PY{n+nf}{if\PYZus{}else}\PY{p}{(}\PY{n+nf}{str\PYZus{}length}\PY{p}{(}\PY{n}{year}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m}{4}\PY{p}{,}
+                                 \PY{n+nf}{as.integer}\PY{p}{(}\PY{n+nf}{str\PYZus{}split}\PY{p}{(}\PY{n}{year}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZhy{}\PYZdq{}}\PY{p}{,}
+                                                      \PY{n}{simplify} \PY{o}{=} \PY{n+nb+bp}{T}\PY{p}{)}\PY{n}{[1}\PY{n}{]}\PY{p}{)}\PY{p}{,}
+                                 \PY{n+nf}{as.integer}\PY{p}{(}\PY{n}{year}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{mutate}\PY{p}{(}\PY{n}{title} \PY{o}{=} \PY{n+nf}{if\PYZus{}else}\PY{p}{(}\PY{n+nf}{is.na}\PY{p}{(}\PY{n}{title\PYZus{}tmp}\PY{p}{)}\PY{p}{,} \PY{n}{title}\PY{p}{,} \PY{n}{title\PYZus{}tmp}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{select}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{title\PYZus{}tmp}\PY{p}{)}  \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{mutate}\PY{p}{(}\PY{n}{genres} \PY{o}{=} \PY{n+nf}{if\PYZus{}else}\PY{p}{(}\PY{n}{genres} \PY{o}{==} \PY{l+s}{\PYZdq{}}\PY{l+s}{(no genres listed)\PYZdq{}}\PY{p}{,}
+                                   \PY{n+nf}{`is.na\PYZlt{}\PYZhy{}`}\PY{p}{(}\PY{n}{genres}\PY{p}{)}\PY{p}{,} \PY{n}{genres}\PY{p}{)}\PY{p}{)}
+         \PY{n}{validation} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{test} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+           \PY{n+nf}{semi\PYZus{}join}\PY{p}{(}\PY{n}{edx}\PY{p}{,} \PY{n}{by} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{movieId\PYZdq{}}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{semi\PYZus{}join}\PY{p}{(}\PY{n}{edx}\PY{p}{,} \PY{n}{by} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{userId\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}56}]:} \PY{c+c1}{\PYZsh{}Root Mean Square Error Loss Function}
+         \PY{n}{RMSE} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{function}\PY{p}{(}\PY{n}{true\PYZus{}ratings}\PY{p}{,} \PY{n}{predicted\PYZus{}ratings}\PY{p}{)}\PY{p}{\PYZob{}}
+                 \PY{n+nf}{sqrt}\PY{p}{(}\PY{n+nf}{mean}\PY{p}{(}\PY{p}{(}\PY{n}{true\PYZus{}ratings} \PY{o}{\PYZhy{}} \PY{n}{predicted\PYZus{}ratings}\PY{p}{)}\PY{n}{\PYZca{}2}\PY{p}{)}\PY{p}{)}
+               \PY{p}{\PYZcb{}}
+               
+         \PY{n}{lambdas} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{seq}\PY{p}{(}\PY{l+m}{0}\PY{p}{,} \PY{l+m}{5}\PY{p}{,} \PY{l+m}{0.25}\PY{p}{)}
+         \PY{n}{rmses} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{sapply}\PY{p}{(}\PY{n}{lambdas}\PY{p}{,}\PY{n+nf}{function}\PY{p}{(}\PY{n}{l}\PY{p}{)}\PY{p}{\PYZob{}}
+           
+           \PY{c+c1}{\PYZsh{}Mean of ratings from the edx training set}
+           \PY{n}{mu} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{mean}\PY{p}{(}\PY{n}{train}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{)}
+           
+           \PY{c+c1}{\PYZsh{}Adjust mean by movie effect and penalize low number on ratings}
+           \PY{n}{b\PYZus{}i} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{train} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+             \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{movieId}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{summarize}\PY{p}{(}\PY{n}{b\PYZus{}i} \PY{o}{=} \PY{n+nf}{sum}\PY{p}{(}\PY{n}{rating} \PY{o}{\PYZhy{}} \PY{n}{mu}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{n+nf}{n}\PY{p}{(}\PY{p}{)}\PY{o}{+}\PY{n}{l}\PY{p}{)}\PY{p}{)}
+           
+           \PY{c+c1}{\PYZsh{}Adjdust mean by user and movie effect and penalize low number of ratings}
+           \PY{n}{b\PYZus{}u} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{train} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+             \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{b\PYZus{}i}\PY{p}{,} \PY{n}{by}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{movieId\PYZdq{}}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{userId}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{summarize}\PY{p}{(}\PY{n}{b\PYZus{}u} \PY{o}{=} \PY{n+nf}{sum}\PY{p}{(}\PY{n}{rating} \PY{o}{\PYZhy{}} \PY{n}{b\PYZus{}i} \PY{o}{\PYZhy{}} \PY{n}{mu}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{n+nf}{n}\PY{p}{(}\PY{p}{)}\PY{o}{+}\PY{n}{l}\PY{p}{)}\PY{p}{)}
+           
+           \PY{c+c1}{\PYZsh{}Predict ratings in the training set to derive optimal penalty value \PYZsq{}lambda\PYZsq{}}
+           \PY{n}{predicted\PYZus{}ratings} \PY{o}{\PYZlt{}\PYZhy{}} 
+             \PY{n}{train} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+             \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{b\PYZus{}i}\PY{p}{,} \PY{n}{by} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{movieId\PYZdq{}}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{b\PYZus{}u}\PY{p}{,} \PY{n}{by} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{userId\PYZdq{}}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{mutate}\PY{p}{(}\PY{n}{pred} \PY{o}{=} \PY{n}{mu} \PY{o}{+} \PY{n}{b\PYZus{}i} \PY{o}{+} \PY{n}{b\PYZus{}u}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n}{.\PYZdl{}pred}
+           
+           \PY{n+nf}{return}\PY{p}{(}\PY{n+nf}{RMSE}\PY{p}{(}\PY{n}{predicted\PYZus{}ratings}\PY{p}{,} \PY{n}{train}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{)}\PY{p}{)}
+         \PY{p}{\PYZcb{}}\PY{p}{)}
+         \PY{n+nf}{plot}\PY{p}{(}\PY{n}{lambdas}\PY{p}{,} \PY{n}{rmses}\PY{p}{,} \PY{c+c1}{\PYZsh{}Graphic}
+             \PY{n}{col} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{blue\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_92_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}57}]:} \PY{n}{lambda} \PY{o}{\PYZlt{}\PYZhy{}} \PY{l+m}{0.5}
+               
+         \PY{n}{pred\PYZus{}y\PYZus{}lse} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{sapply}\PY{p}{(}\PY{n}{lambda}\PY{p}{,}\PY{n+nf}{function}\PY{p}{(}\PY{n}{l}\PY{p}{)}\PY{p}{\PYZob{}}
+           
+           \PY{c+c1}{\PYZsh{}Derive the mearn from the training set}
+           \PY{n}{mu} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{mean}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{)}
+           
+           \PY{c+c1}{\PYZsh{}Calculate movie effect with optimal lambda}
+         \PY{n}{b\PYZus{}i} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+             \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{movieId}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{summarize}\PY{p}{(}\PY{n}{b\PYZus{}i} \PY{o}{=} \PY{n+nf}{sum}\PY{p}{(}\PY{n}{rating} \PY{o}{\PYZhy{}} \PY{n}{mu}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{n+nf}{n}\PY{p}{(}\PY{p}{)}\PY{o}{+}\PY{n}{l}\PY{p}{)}\PY{p}{)}
+           
+           \PY{c+c1}{\PYZsh{}Calculate user effect with optimal lambda}
+         \PY{n}{b\PYZus{}u} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+             \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{b\PYZus{}i}\PY{p}{,} \PY{n}{by}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{movieId\PYZdq{}}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{userId}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{summarize}\PY{p}{(}\PY{n}{b\PYZus{}u} \PY{o}{=} \PY{n+nf}{sum}\PY{p}{(}\PY{n}{rating} \PY{o}{\PYZhy{}} \PY{n}{b\PYZus{}i} \PY{o}{\PYZhy{}} \PY{n}{mu}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{n+nf}{n}\PY{p}{(}\PY{p}{)}\PY{o}{+}\PY{n}{l}\PY{p}{)}\PY{p}{)}
+           
+           \PY{c+c1}{\PYZsh{}Predict ratings on validation set}
+         \PY{n}{predicted\PYZus{}ratings} \PY{o}{\PYZlt{}\PYZhy{}} 
+             \PY{n}{validation} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+             \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{b\PYZus{}i}\PY{p}{,} \PY{n}{by} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{movieId\PYZdq{}}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{left\PYZus{}join}\PY{p}{(}\PY{n}{b\PYZus{}u}\PY{p}{,} \PY{n}{by} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{userId\PYZdq{}}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n+nf}{mutate}\PY{p}{(}\PY{n}{pred} \PY{o}{=} \PY{n}{mu} \PY{o}{+} \PY{n}{b\PYZus{}i} \PY{o}{+} \PY{n}{b\PYZus{}u}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+             \PY{n}{.\PYZdl{}pred} \PY{c+c1}{\PYZsh{}validation}
+           
+           \PY{n+nf}{return}\PY{p}{(}\PY{n}{predicted\PYZus{}ratings}\PY{p}{)}
+           
+         \PY{p}{\PYZcb{}}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}Plot Linear, where we can see that the movies before 2000 are preferred for the customers.}
+         \PY{n}{avg\PYZus{}ratings} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+         \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{year}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} 
+         \PY{n+nf}{summarise}\PY{p}{(}\PY{n}{avg\PYZus{}rating} \PY{o}{=} \PY{n+nf}{mean}\PY{p}{(}\PY{n}{rating}\PY{p}{)}\PY{p}{)}
+         \PY{n+nf}{plot}\PY{p}{(}\PY{n}{avg\PYZus{}ratings}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_93_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}58}]:} \PY{n+nf}{library}\PY{p}{(}\PY{n}{lubridate}\PY{p}{)}
+         
+         \PY{n+nf}{tibble}\PY{p}{(}\PY{n}{`Initial Date`} \PY{o}{=} \PY{n+nf}{date}\PY{p}{(}\PY{n+nf}{as\PYZus{}datetime}\PY{p}{(}\PY{n+nf}{min}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{timestamp}\PY{p}{)}\PY{p}{,} \PY{n}{origin}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{1980\PYZhy{}01\PYZhy{}01\PYZdq{}}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                \PY{n}{`Final Date`} \PY{o}{=} \PY{n+nf}{date}\PY{p}{(}\PY{n+nf}{as\PYZus{}datetime}\PY{p}{(}\PY{n+nf}{max}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{timestamp}\PY{p}{)}\PY{p}{,} \PY{n}{origin}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{1980\PYZhy{}01\PYZhy{}01\PYZdq{}}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{mutate}\PY{p}{(}\PY{n}{Period} \PY{o}{=} \PY{n+nf}{duration}\PY{p}{(}\PY{n+nf}{max}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{timestamp}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n+nf}{min}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{timestamp}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Attaching package: ‘lubridate’
+
+The following objects are masked from ‘package:base’:
+
+    date, intersect, setdiff, union
+
+
+    \end{Verbatim}
+
+    \begin{tabular}{r|lll}
+ Initial Date & Final Date & Period\\
+\hline
+	 2005-01-08                                 & 2019-01-05                                 & 441479128s (\textasciitilde{}13.99 years)\\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}59}]:} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{mutate}\PY{p}{(}\PY{n}{date} \PY{o}{=} \PY{n+nf}{date}\PY{p}{(}\PY{n+nf}{as\PYZus{}datetime}\PY{p}{(}\PY{n}{timestamp}\PY{p}{,} \PY{n}{origin}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{1990\PYZhy{}01\PYZhy{}01\PYZdq{}}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{date}\PY{p}{,} \PY{n}{title}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{summarise}\PY{p}{(}\PY{n}{count} \PY{o}{=} \PY{n+nf}{n}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{arrange}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{count}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+           \PY{n+nf}{head}\PY{p}{(}\PY{l+m}{25}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+`summarise()` has grouped output by 'date'. You can override using the `.groups` argument.
+
+    \end{Verbatim}
+
+    \begin{tabular}{r|lll}
+ date & title & count\\
+\hline
+	 2018-05-22                                                              & Chasing Amy                                                             & 266                                                                    \\
+	 2020-11-20                                                              & American Beauty                                                         & 215                                                                    \\
+	 2019-12-11                                                              & Star Wars: Episode IV - A New Hope (a.k.a. Star Wars)                   & 202                                                                    \\
+	 2019-12-11                                                              & Star Wars: Episode V - The Empire Strikes Back                          & 200                                                                    \\
+	 2025-03-22                                                              & Lord of the Rings: The Two Towers, The                                  & 197                                                                    \\
+	 2019-12-11                                                              & Star Wars: Episode VI - Return of the Jedi                              & 189                                                                    \\
+	 2025-03-22                                                              & Lord of the Rings: The Fellowship of the Ring, The                      & 177                                                                    \\
+	 2020-11-20                                                              & Jurassic Park                                                           & 173                                                                    \\
+	 2020-11-20                                                              & Terminator 2: Judgment Day                                              & 170                                                                    \\
+	 2019-12-11                                                              & Matrix, The                                                             & 169                                                                    \\
+	 2020-11-20                                                              & Men in Black                                                            & 167                                                                    \\
+	 2025-03-22                                                              & Shrek                                                                   & 158                                                                    \\
+	 2020-11-20                                                              & Star Wars: Episode IV - A New Hope (a.k.a. Star Wars)                   & 157                                                                    \\
+	 2020-11-20                                                              & Star Wars: Episode V - The Empire Strikes Back                          & 154                                                                    \\
+	 2020-11-20                                                              & Matrix, The                                                             & 151                                                                    \\
+	 2019-12-11                                                              & Raiders of the Lost Ark (Indiana Jones and the Raiders of the Lost Ark) & 150                                                                    \\
+	 2020-11-20                                                              & Saving Private Ryan                                                     & 150                                                                    \\
+	 2020-11-20                                                              & Star Wars: Episode VI - Return of the Jedi                              & 150                                                                    \\
+	 2019-12-11                                                              & Saving Private Ryan                                                     & 146                                                                    \\
+	 2019-12-11                                                              & E.T. the Extra-Terrestrial                                              & 145                                                                    \\
+	 2019-12-11                                                              & Godfather, The                                                          & 145                                                                    \\
+	 2025-03-22                                                              & Fight Club                                                              & 145                                                                    \\
+	 2025-03-22                                                              & Matrix, The                                                             & 143                                                                    \\
+	 2020-11-20                                                              & Braveheart                                                              & 142                                                                    \\
+	 2025-03-22                                                              & Shawshank Redemption, The                                               & 140                                                                    \\
+\end{tabular}
+
+
+    
+    \section{5 Data Analysis(EDA)}\label{data-analysiseda}
+
+    \#
+
+Features:
+
+\begin{itemize}
+\item
+  Title of the movie.
+\item
+  Year of realse and rated.
+\item
+  Timestamp Information.
+
+  We will verify the division of the database, and thus compare with two
+  graphs that will show us a better classification of the different
+  features
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}60}]:} \PY{n}{questions} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{c}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{How many different movies are in the edx dataset?\PYZdq{}}\PY{p}{,}
+                         \PY{l+s}{\PYZdq{}}\PY{l+s}{How many different genres are in the edx dataset?\PYZdq{}}\PY{p}{,}
+                         \PY{l+s}{\PYZdq{}}\PY{l+s}{How many different titles are in the edx dataset?\PYZdq{}}\PY{p}{,}
+                         \PY{l+s}{\PYZdq{}}\PY{l+s}{How many different users are in the edx dataset?\PYZdq{}}\PY{p}{,}
+                         \PY{l+s}{\PYZdq{}}\PY{l+s}{What is the rating of movies per users?\PYZdq{}}
+         \PY{p}{)}
+         \PY{n}{values\PYZus{}edx} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{c}\PY{p}{(}\PY{n+nf}{round}\PY{p}{(}\PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{movieId}\PY{p}{)}\PY{p}{,}\PY{l+m}{0}\PY{p}{)}\PY{p}{,}
+                     \PY{n+nf}{round}\PY{p}{(}\PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{genres}\PY{p}{)}\PY{p}{,}\PY{l+m}{0}\PY{p}{)}\PY{p}{,}
+                     \PY{n+nf}{round}\PY{p}{(}\PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{title}\PY{p}{)}\PY{p}{,}\PY{l+m}{0}\PY{p}{)}\PY{p}{,}
+                     \PY{n+nf}{round}\PY{p}{(}\PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{userId}\PY{p}{)}\PY{p}{,}\PY{l+m}{0}\PY{p}{)}\PY{p}{,}
+                     \PY{n+nf}{round}\PY{p}{(}\PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{movieId}\PY{p}{)}\PY{o}{*}\PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{edx}\PY{o}{\PYZdl{}}\PY{n}{userId}\PY{p}{)}\PY{o}{/}\PY{n+nf}{dim}\PY{p}{(}\PY{n}{edx}\PY{p}{)}\PY{n}{[1}\PY{n}{]} \PY{p}{,}\PY{l+m}{2}\PY{p}{)}
+         \PY{p}{)}
+         \PY{n}{values\PYZus{}validation} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{c}\PY{p}{(}\PY{n+nf}{round}\PY{p}{(}\PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{validation}\PY{o}{\PYZdl{}}\PY{n}{movieId}\PY{p}{)}\PY{p}{,}\PY{l+m}{0}\PY{p}{)}\PY{p}{,}
+                             \PY{n+nf}{round}\PY{p}{(}\PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{validation}\PY{o}{\PYZdl{}}\PY{n}{genres}\PY{p}{)}\PY{p}{,}\PY{l+m}{0}\PY{p}{)}\PY{p}{,}
+                             \PY{n+nf}{round}\PY{p}{(}\PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{validation}\PY{o}{\PYZdl{}}\PY{n}{title}\PY{p}{)}\PY{p}{,}\PY{l+m}{0}\PY{p}{)}\PY{p}{,}
+                             \PY{n+nf}{round}\PY{p}{(}\PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{validation}\PY{o}{\PYZdl{}}\PY{n}{userId}\PY{p}{)}\PY{p}{,}\PY{l+m}{0}\PY{p}{)}\PY{p}{,}
+                             \PY{n+nf}{round}\PY{p}{(}\PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{validation}\PY{o}{\PYZdl{}}\PY{n}{movieId}\PY{p}{)}\PY{o}{*}\PY{n+nf}{n\PYZus{}distinct}\PY{p}{(}\PY{n}{validation}\PY{o}{\PYZdl{}}\PY{n}{userId}\PY{p}{)}\PY{o}{/}\PY{n+nf}{dim}\PY{p}{(}\PY{n}{edx}\PY{p}{)}\PY{n}{[1}\PY{n}{]} \PY{p}{,}\PY{l+m}{2}\PY{p}{)}
+         \PY{p}{)}
+         \PY{n}{train\PYZus{}val} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{data.frame}\PY{p}{(}\PY{n}{questions} \PY{o}{=} \PY{n}{questions}\PY{p}{,} \PY{n}{edx}\PY{o}{=}\PY{n}{values\PYZus{}edx}\PY{p}{,} \PY{n}{validation} \PY{o}{=} \PY{n}{values\PYZus{}validation} \PY{p}{)}
+         \PY{n}{train\PYZus{}val}
+\end{Verbatim}
+
+    \begin{tabular}{r|lll}
+ questions & edx & validation\\
+\hline
+	 How many different movies are in the edx dataset? & 10649.00                                          & 10169.00                                         \\
+	 How many different genres are in the edx dataset? &   796.00                                          &   786.00                                         \\
+	 How many different titles are in the edx dataset? & 10380.00                                          & 10168.00                                         \\
+	 How many different users are in the edx dataset?  & 69878.00                                          & 69692.00                                         \\
+	 What is the rating of movies per users?           &   102.07                                          &    97.21                                         \\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}61}]:} \PY{n}{edx} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{separate\PYZus{}rows}\PY{p}{(}\PY{n}{genres}\PY{p}{,}\PY{n}{sep} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZbs{}\PYZbs{}|\PYZdq{}}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{mutate}\PY{p}{(}\PY{n}{value}\PY{o}{=}\PY{l+m}{1}\PY{p}{)}
+                 \PY{n}{genres\PYZus{}rating} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{group\PYZus{}by}\PY{p}{(}\PY{n}{genres}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{summarise}\PY{p}{(}\PY{n}{n}\PY{o}{=}\PY{n+nf}{n}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+                 \PY{n}{genres\PYZus{}rating} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n}{genres\PYZus{}rating}\PY{n+nf}{[order}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{genres\PYZus{}rating}\PY{o}{\PYZdl{}}\PY{n}{n}\PY{p}{)}\PY{p}{,}\PY{n}{]}
+                 \PY{n+nf}{ggplot}\PY{p}{(}\PY{n}{genres\PYZus{}rating}\PY{p}{,} \PY{n+nf}{aes}\PY{p}{(}\PY{n}{x} \PY{o}{=} \PY{n}{n}\PY{p}{,} \PY{n}{y} \PY{o}{=}\PY{n+nf}{reorder}\PY{p}{(}\PY{n}{genres}\PY{p}{,} \PY{n}{n}\PY{p}{)}\PY{p}{,}\PY{n}{fill}\PY{o}{=}\PY{n}{genres}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+                 \PY{n+nf}{geom\PYZus{}bar}\PY{p}{(}\PY{n}{stat} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{identity\PYZdq{}}\PY{p}{)} \PY{o}{+}
+                 \PY{n+nf}{theme}\PY{p}{(}\PY{n}{legend.position} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{none\PYZdq{}}\PY{p}{)}\PY{o}{+}
+                 \PY{n+nf}{labs}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{Bar plot for Genres ratings\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{Count\PYZdq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{Genres ratings\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_99_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    We observe prevalence of genres, Drama continuing to be the most rated,
+and IMAX is the lowest, and give a correct cleaned the data deleted Nan,
+this model confirmed when before we agroup by genres.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}62}]:} \PY{n}{edx} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{count}\PY{p}{(}\PY{n}{movieId}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} \PY{n+nf}{ggplot}\PY{p}{(}\PY{n+nf}{aes}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}\PY{o}{+}
+                 \PY{n+nf}{geom\PYZus{}histogram}\PY{p}{(}\PY{n}{color} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{black\PYZdq{}} \PY{p}{,} \PY{n}{fill}\PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{green\PYZdq{}}\PY{p}{)}\PY{o}{+}
+                 \PY{n+nf}{scale\PYZus{}x\PYZus{}log10}\PY{p}{(}\PY{p}{)}\PY{o}{+}
+                 \PY{n+nf}{labs}\PY{p}{(} \PY{n}{x} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{log10 of count movieID\PYZdq{}}\PY{p}{)}\PY{o}{+}
+                 \PY{n+nf}{ggtitle}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Rating times Per Movie\PYZdq{}}\PY{p}{)}\PY{o}{+}
+                 \PY{n+nf}{theme\PYZus{}gray}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+`stat\_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_101_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}79}]:} \PY{n+nf}{install.packages}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{xtable\PYZdq{}}\PY{p}{,} \PY{n}{repos} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{http://cran.us.r\PYZhy{}project.org\PYZdq{}}\PY{p}{)}
+         \PY{n+nf}{library}\PY{p}{(}\PY{n}{xtable}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Updating HTML index of packages in '.Library'
+Making 'packages.html' {\ldots} done
+
+    \end{Verbatim}
+
+    \section{Linear Regression Model
+Summary}\label{linear-regression-model-summary}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}81}]:} \PY{n}{model} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{lm}\PY{p}{(}\PY{n}{rating} \PY{o}{\PYZti{}} \PY{n}{userId} \PY{o}{+} \PY{n}{movieId}\PY{p}{,} \PY{n}{data} \PY{o}{=} \PY{n}{edx}\PY{p}{)}
+         \PY{n}{result} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{predict}\PY{p}{(}\PY{n}{model}\PY{p}{,}\PY{n}{validation}\PY{p}{)}
+         
+         \PY{n}{lm\PYZus{}rmse} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{RMSE}\PY{p}{(}\PY{n}{validation}\PY{o}{\PYZdl{}}\PY{n}{rating}\PY{p}{,} \PY{n}{result}\PY{p}{)}
+         
+         \PY{n}{model} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+         \PY{n+nf}{summary}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+         \PY{n+nf}{xtable}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{tabular}{r|llll}
+  & Estimate & Std. Error & t value & Pr(>\textbar{}t\textbar{})\\
+\hline
+	(Intercept) &  3.525399e+00 & 4.981499e-04  & 7076.98374    &  0.000000e+00\\
+	userId &  1.326330e-07 & 1.174836e-08  &   11.28950    &  1.479117e-29\\
+	movieId & -7.617538e-07 & 2.592977e-08  &  -29.37758    & 1.072640e-189\\
+\end{tabular}
+
+
+    
+    Histograms log10 of movieId looks like a gaussian distribution. From
+histograms, we observe the effects over Rating times by age at rate,
+userID and movieID, which are assimilated to some type of distribution,
+which allows us to approach an prediction by mean value.
+
+    The Model Linear Regression give us the same result of RMSE, with
+positive correlation that mean variables in which both variables move in
+the same direction.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}64}]:} \PY{n+nf}{library}\PY{p}{(}\PY{n}{Hmisc}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}65}]:} \PY{c+c1}{\PYZsh{}Now we can see the correlationn in this 3 features, }
+         \PY{n}{edx\PYZus{}cor} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{select}\PY{p}{(}\PY{n}{edx}\PY{p}{,}\PY{n+nf}{c}\PY{p}{(}\PY{n}{rating}\PY{p}{,}\PY{n}{userId}\PY{p}{,}\PY{n}{movieId}\PY{p}{)}\PY{p}{)}
+         \PY{n}{res\PYZus{}corr} \PY{o}{\PYZlt{}\PYZhy{}} \PY{n+nf}{rcorr}\PY{p}{(}\PY{n+nf}{as.matrix}\PY{p}{(}\PY{n}{edx\PYZus{}cor}\PY{p}{)}\PY{p}{)}
+         \PY{n+nf}{print}\PY{p}{(}\PY{n}{res\PYZus{}corr}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+        rating userId movieId
+rating    1.00      0   -0.01
+userId    0.00      1    0.00
+movieId  -0.01      0    1.00
+
+n= 18931540 
+
+
+P
+        rating userId movieId
+rating          0      0     
+userId   0             0     
+movieId  0      0            
+
+    \end{Verbatim}
+
+    \section{CONCLUSION}\label{conclusion}
+
+    With the different analyzes we can see how we discover the tastes of the
+spectators, as the films with the highest rating are not necessarily the
+most viewed, likewise it leads us to discover the taste for films of
+past decades over the most avant-garde ones.
+
+RMSE, root-mean-square deviation, model that was used to predict from a
+list of rated movies, and discovers patterns. It was determined which
+movies viewers prefer, with a medium to high rating. (3 to 4). The films
+preferred by the clients were those produced from the periods 1920 and
+2000 with a maximum rating of 4. The model yielded an accuracy of 86\%,
+highlighting that the larger the sample size increases the accuracy or
+precision of the model and vice versa.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
