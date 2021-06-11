@@ -1,3 +1,10 @@
+title:  "Movilens Rating"
+author:  "Monica Bustamante"
+date:    "10/06/2021"
+output: 
+  pdf_document: 
+    latex_engine: xelatex
+
 
 <center>
 
@@ -27,7 +34,7 @@
 
 # 
 
-<p style='text-align: justify;'> Movielenss is a project developed by GroupLens, a research laboratory at the University of Minnesota. MovieLens provides online movie recommender algorithms, the full data set consists of more de 25 million ratings across more than 40,000 movies by more than 250.000 users, all users selected had rated at least 20 movies, each user is represented by id. 
+<p style='text-align: justify;'> Movielens is a project developed by GroupLens, a research laboratory at the University of Minnesota. MovieLens provides online movie recommender algorithms, the full data set consists of more de 25 million ratings across more than 40,000 movies by more than 250.000 users, all users selected had rated at least 20 movies, each user is represented by id. 
     This project will predict features and the rating of movies by users using ratings that have been collected for several years by Movilens and thus convert them to algorithms and machine learning models, and then recommend users in their future searches, as a result, verify the performance of algorithms. For the evaluation, the residual mean square error (RMSE) of the predictions will be used and thus compare the real rating of the users. 
     In general, the algorithms and model will show a deep understanding of the variables, observations, and ratings given by users, and as a result, compare the final results and predictions. 
 
