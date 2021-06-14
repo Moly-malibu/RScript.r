@@ -1,121 +1,58 @@
-title:  "Movilens Rating"
-author:  "Monica Bustamante"
-date:    "10/06/2021"
-output: 
-  pdf_document: 
+
+---
+title: 'Movilens: HarvardX Data Science'
+author: "Monica Bustamante"
+date: "10/07/2021"
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+  pdf_document:
     latex_engine: xelatex
+params:
+  project_intro: Introduction
+---
 
 
-<center>
-
-# MovieLens Project Report
-
-</center>
-
-<center>
-
-### Monica Bustamante
-
-</center>
-
-<center>
-
-### HarvardX-Data Science: Capstone
-
-</center>
-
-# 
-
-<center>
-
-# INTRODUCTION
-
-</center>
-
-# 
-
-<p style='text-align: justify;'> Movielens is a project developed by GroupLens, a research laboratory at the University of Minnesota. MovieLens provides online movie recommender algorithms, the full data set consists of more de 25 million ratings across more than 40,000 movies by more than 250.000 users, all users selected had rated at least 20 movies, each user is represented by id. 
+                                         Introduction:
+                                        
+<p style='text-align: justify;'> Movielenss is a project developed by GroupLens, a research laboratory at the University of Minnesota. MovieLens provides online movie recommender algorithms, the full data set consists of more de 25 million ratings across more than 40,000 movies by more than 250.000 users, all users selected had rated at least 20 movies, each user is represented by id. 
     This project will predict features and the rating of movies by users using ratings that have been collected for several years by Movilens and thus convert them to algorithms and machine learning models, and then recommend users in their future searches, as a result, verify the performance of algorithms. For the evaluation, the residual mean square error (RMSE) of the predictions will be used and thus compare the real rating of the users. 
     In general, the algorithms and model will show a deep understanding of the variables, observations, and ratings given by users, and as a result, compare the final results and predictions. 
 
 </p>
 
 
-# 
 
-1. Create Edx Set, validation set
-2. Install Packages
-3. Install Libraries
-4. Load Data set from HTTP
-5. Create Rating
-6. Split data
-7. Create DataFrame
-8. Create validation set
-8. Analysis of the variables
-9. Model Developing Approach
+
+-  Create Edx Set, validation set
+-  Install Packages
+-  Install Libraries
+-  Load Data set from HTTP
+-  Create Rating
+-  Split data
+-  Clean Data Set Na
+-  Create DataFrame
+-  Create validation set
+-  Analysis of the variables
+-  Model Developing Approach
 
 ## 1. Installing essential Packages and Libraries
-
-# 
-
 
 ```R
 #Install packages
 install.packages("tidyverse", repos = "http://cran.us.r-project.org")
-```
-
-    Updating HTML index of packages in '.Library'
-    Making 'packages.html' ... done
-
-
-
-```R
-#Install packages 
 install.packages("data.table", repos = "http://cran.us.r-project.org")
-```
-
-    Updating HTML index of packages in '.Library'
-    Making 'packages.html' ... done
-
-
-
-```R
-#Install packages caret
 install.packages("caret", repos = "http://cran.us.r-project.org", dependencies=TRUE)
+install.packages(basictabler)
 ```
-
-    Updating HTML index of packages in '.Library'
-    Making 'packages.html' ... done
-
-
 
 ```R
 #Install library
 library(tidyverse)
 library(caret)
+library(basictabler)
 ```
-
-    Warning message in system("timedatectl", intern = TRUE):
-    “running command 'timedatectl' had status 1”── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
-    ✔ ggplot2 3.3.3     ✔ purrr   0.3.4
-    ✔ tibble  3.1.2     ✔ dplyr   1.0.6
-    ✔ tidyr   1.1.3     ✔ stringr 1.4.0
-    ✔ readr   1.4.0     ✔ forcats 0.5.1
-    ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ✖ dplyr::filter()     masks stats::filter()
-    ✖ dplyr::group_rows() masks kableExtra::group_rows()
-    ✖ dplyr::lag()        masks stats::lag()
-    Loading required package: lattice
-    
-    Attaching package: ‘caret’
-    
-    The following object is masked from ‘package:purrr’:
-    
-        lift
-    
-
-
-# 
 
 ## 2. DataSet Downloading
 
@@ -129,20 +66,17 @@ dl <- tempfile()
  download.file("http://files.grouplens.org/datasets/movielens/ml-10m.zip", dl)
 ```
 
-
 ```R
 #Read table
 ratings <- read.table(text = gsub("::", "\t", readLines(unzip(dl, "ml-10M100K/ratings.dat"))),
                       col.names = c("userId", "movieId", "rating", "timestamp"))
 ```
 
-
 ```R
 #Split dataset
 movies <- str_split_fixed(readLines(unzip(dl, "ml-10M100K/movies.dat")), "\\::", 3)
 colnames(movies) <- c("movieId", "title", "genres")
 ```
-
 
 ```R
 #Mutate, rename title
@@ -156,7 +90,7 @@ movies <- as.data.frame(movies) %>% mutate(movieId = as.numeric(levels(movieId))
 movielens <- left_join(ratings, movies, by = "movieId")
 ```
 
-### <p style='text-align: justify;'> Split and Validation:
+## Split and Validation:
 
     Prepared the Movilens dataset split and validation by 10%. 
 </p>
@@ -180,7 +114,6 @@ validation <- temp %>%
       semi_join(edx, by = "userId")
 ```
 
-
 ```R
 # Add rows removed from validation set back into edx set
 removed <- anti_join(temp, validation)
@@ -190,16 +123,10 @@ rm(dl, ratings, movies, test_index, temp, movielens, removed)
 
 ```
 
-    Joining, by = c("userId", "movieId", "rating", "timestamp", "title", "genres")
-
-
-
 ```R
 #validation dataset
 validation  <- validation %>% select(-rating)
 ```
-
-# 
 
 # 3. Data Cleansing
 
@@ -220,14 +147,14 @@ print(na_edx, na_validation)
 
 Acquire information by exploring and analyzing the dataset, understanding the effects of the different variables.
 
-# How many rows and columns are there in the edx dataset?
-
+# A. How many rows and columns are there in the edx dataset?
 
 ```R
 #To see more information about the dataset
-head(edx, 5)
+tbl <-BasicTable$new()
+tbl$addData(edx)
+tbl(head(edx, 5))
 ```
-
 
 <table>
 <thead><tr><th scope=col>userId</th><th scope=col>movieId</th><th scope=col>rating</th><th scope=col>timestamp</th><th scope=col>title</th><th scope=col>genres</th></tr></thead>
@@ -239,8 +166,6 @@ head(edx, 5)
 	<tr><td>1                           </td><td>316                         </td><td>5                           </td><td>838983392                   </td><td>Stargate (1994)             </td><td>Action|Adventure|Sci-Fi     </td></tr>
 </tbody>
 </table>
-
-
 
 
 ```R
@@ -263,8 +188,6 @@ summary(edx)
                                           
                                           
                                           
-
-
 <p style='text-align: justify;'> 
 The edx data has 9,000,055 rows or observations and 6 columns or variables. 69,878 users rated one, 797 genres, and more of the 10,677 movies. Each row represents one user’s rating to a single movie.
     
@@ -282,13 +205,12 @@ paste('The edx dataset has',nrow(edx),'rows and',ncol(edx),'columns.')
 'The edx dataset has 9000061 rows and 6 columns.'
 
 
-
 ```R
 #To see more information about dataset
 edx %>% summarise(
-  uniq_movies = n_distinct(movieId),
-  uniq_users = n_distinct(userId),
-  uniq_genres = n_distinct(genres))
+  print(uniq_movies = n_distinct(movieId)),
+  print(uniq_users = n_distinct(userId)),
+  print(uniq_genres = n_distinct(genres)))
 ```
 
 
@@ -312,7 +234,7 @@ rating_mean
 3.51246397107753
 
 
-# How many zeros were given as ratings in the edx dataset?
+# B. How many zeros were given as ratings in the edx dataset?
 
 
 ```R
@@ -327,7 +249,7 @@ paste(sum(edx$rating == 0), 'ratings with 0 were given and',
 
 
 ```R
-edx %>% filter(rating == 3) %>% tally()
+print(edx %>% filter(rating == 3) %>% tally())
 ```
 
 
@@ -340,7 +262,7 @@ edx %>% filter(rating == 3) %>% tally()
 
 
 
-# How many different movies are in the edx dataset?
+# C. How many different movies are in the edx dataset?
 
 
 ```R
@@ -354,7 +276,7 @@ n_distinct(edx$movieId)
 
 
 ```R
-edx %>% summarize(n_movies = n_distinct(movieId))
+print(edx %>% summarize(n_movies = n_distinct(movieId)))
 ```
 
 
@@ -367,7 +289,7 @@ edx %>% summarize(n_movies = n_distinct(movieId))
 
 
 
-# How many different users are in the edx dataset?
+# D. How many different users are in the edx dataset?
 
 
 ```R
@@ -394,36 +316,17 @@ edx %>% summarize(n_users = n_distinct(userId))
 
 
 
-# How many movie ratings are in each of the following genres in the edx dataset?
+# E. How many movie ratings are in each of the following genres in the edx dataset?
 
 
 ```R
-# str_detect
-genres = c("Drama", "Comedy", "Thriller", "Romance")
-sapply(genres, function(g) {
-    sum(str_detect(edx$genres, g))
-})
           
 # separate_rows, much slower.
 edx %>% separate_rows(genres, sep = "\\|") %>%
     group_by(genres) %>%
     summarize(count = n()) %>%
-    arrange(desc(count))
+    print(arrange(desc(count)))
 ```
-
-
-<dl class=dl-horizontal>
-	<dt>Drama</dt>
-		<dd>3909401</dd>
-	<dt>Comedy</dt>
-		<dd>3541284</dd>
-	<dt>Thriller</dt>
-		<dd>2325349</dd>
-	<dt>Romance</dt>
-		<dd>1712232</dd>
-</dl>
-
-
 
 
 <table>
@@ -461,10 +364,7 @@ drama <- edx %>% filter(str_detect(genres,"Drama"))
 paste('Drama has',nrow(drama),'movies')
 ```
 
-
 'Drama has 3909401 movies'
-
-
 
 ```R
 #Movie ratings by Comedy
@@ -498,18 +398,16 @@ paste('Romance has',nrow(romance),'movies')
 'Romance has 1712232 movies'
 
 
-# 
-
-#  VARIABLE ANALYSIS BY RATING
+#  E. VARIABLE ANALYSIS BY RATING
 
 Find any insights to develop the recommendation model. The qualification is the classification of the information that allows it to be evaluated and valued based on a comparative evaluation of its standard quality or performance, quantity, or its combination. In the Movilens data set, the rating has a numerical ordinal scale of 0.5 to 5 stars from movie viewers. The maximum rating they give 5 stars or less if they do not like the movie.
 
-# Which movie has the greatest number of ratings?
+# F. Which movie has the greatest number of ratings?
 
 
 ```R
 edx %>% group_by(rating) %>% 
-summarize(n=n())
+print(summarize(n=n()))
 ```
 
 
@@ -536,7 +434,7 @@ summarize(n=n())
 #Greatest number of ratings. Arrange rows by variables
 edx %>% group_by(title) %>% 
 summarise(number = n()) %>% 
-arrange(desc(number))
+print(arrange(desc(number)))
 ```
 
 
@@ -649,7 +547,7 @@ edx %>%  # Ratings Distribution:
 ![png](output_63_1.png)
 
 
-# What are the five most given ratings in order from most to least?
+# G. What are the five most given ratings in order from most to least?
 
 
 ```R
@@ -677,7 +575,7 @@ arrange(desc(count))
 
 
 
-# True or False: In general, half star ratings are less common than whole star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.).
+# H. True or False: In general, half star ratings are less common than whole star ratings (e.g., there are fewer ratings of 3.5 than there are ratings of 3 or 4, etc.).
 
 
 ```R
@@ -696,7 +594,7 @@ rm(rating35, rating3, rating4, Result)
     [1] TRUE
 
 
-# Graphic Rating movies
+# 4.1. Graphic Rating movies
 
 
 ```R
@@ -712,7 +610,7 @@ edx %>%
 ![png](output_69_0.png)
 
 
-# Plot mean movie ratings given by users
+# 4.2. Plot mean movie ratings given by users
 
 
 ```R
@@ -780,7 +678,7 @@ nrow(movielens)
 10000054
 
 
-# Genres as Drama and Comedy have high rating.
+# 4.3. Genres as Drama and Comedy have high rating.
 
 
 ```R
@@ -811,13 +709,13 @@ plot(table(movielens$year),
 ![png](output_78_0.png)
 
 
-# 4. MODELING
+# 5. MODELING
 
-# Predicted movie ratings and calculates RMSE.
+Predicted movie ratings and calculates RMSE.
 
 Movie rating predictions will be compared to the true ratings in the validation set using RMSE
 
-# Model Approach
+# 5.1. Model Approach RMSE
 
 Movilens is a very large database with different variables that have different effects on ratings. Genres have a significant effect on ratings, it is required to divide compound genres into individual genres and calculate the effect of each genre using relatively more complex calculations. Some movies have a very high number of ratings, while others have very few or low ratings. Coming from small samples -few numbers of grades- can adversely affect preaching. we will use a method known as Regularization to penalize  of very high or low grades that come from small samples. Also, we will divide the edx dataset into two parts: train (80%) and test (20%), then we will use train to train the model and test to cross-validate and fit the model to get the best lambda value that results in a minimum RMSE.
 
@@ -922,7 +820,7 @@ rmse_results
 
 
 
-# RMSE USED VALIDATION SET
+# 5.2. RMSE USED VALIDATION SET
 
 
 ```R
@@ -970,6 +868,7 @@ validation <- test %>%
   semi_join(edx, by = "userId")
 ```
 
+## 5.3. RMSE PLOT
 
 ```R
 #Root Mean Square Error Loss Function
@@ -1128,9 +1027,9 @@ edx %>% mutate(date = date(as_datetime(timestamp, origin="1990-01-01"))) %>%
 
 
 
-# 5 Data Analysis(EDA)
+# 6. Data Analysis(EDA)
 
-# <p style='text-align: justify;'> Features:
+# Features:
 
    - Title of the movie.
    - Year of realse and rated.
@@ -1138,15 +1037,13 @@ edx %>% mutate(date = date(as_datetime(timestamp, origin="1990-01-01"))) %>%
 
     We will verify the division of the database, and thus compare with two graphs that will show us a better classification of the different features
 
-</p>
-
 
 ```R
-questions <- c("How many different movies are in the edx dataset?",
-                "How many different genres are in the edx dataset?",
-                "How many different titles are in the edx dataset?",
-                "How many different users are in the edx dataset?",
-                "What is the rating of movies per users?"
+questions <- c("Movies are in the edx dataset.",
+                "Genres are in the edx dataset.",
+                "Titles are in the edx dataset.",
+                "Users are in the edx dataset.",
+                "Rating of movies per users."
 )
 values_edx <- c(round(n_distinct(edx$movieId),0),
             round(n_distinct(edx$genres),0),
@@ -1169,16 +1066,17 @@ train_val
 <table>
 <thead><tr><th scope=col>questions</th><th scope=col>edx</th><th scope=col>validation</th></tr></thead>
 <tbody>
-	<tr><td>How many different movies are in the edx dataset?</td><td>10649.00                                         </td><td>10169.00                                         </td></tr>
-	<tr><td>How many different genres are in the edx dataset?</td><td>  796.00                                         </td><td>  786.00                                         </td></tr>
-	<tr><td>How many different titles are in the edx dataset?</td><td>10380.00                                         </td><td>10168.00                                         </td></tr>
-	<tr><td>How many different users are in the edx dataset? </td><td>69878.00                                         </td><td>69692.00                                         </td></tr>
-	<tr><td>What is the rating of movies per users?          </td><td>  102.07                                         </td><td>   97.21                                         </td></tr>
+	<tr><td>Movies are in the edx dataset.</td><td>10649.00                                </td><td>10169.00                                         </td></tr>
+	<tr><td>Genres are in the edx dataset.</td><td>  796.00                                </td><td>  786.00                                         </td></tr>
+	<tr><td>Titles are in the edx dataset.</td><td>10380.00                                </td><td>10168.00                                         </td></tr>
+	<tr><td>Users are in the edx dataset. </td><td>69878.00                                </td><td>69692.00                                         </td></tr>
+	<tr><td>Rating of movies per users.</td><td>  102.07                                   </td><td>   97.21                                         </td></tr>
 </tbody>
 </table>
 
 
 
+# 6.1 PLOT EDA: Genres and Times Rating
 
 ```R
 edx <- edx %>% separate_rows(genres,sep = "\\|") %>% mutate(value=1)
@@ -1222,11 +1120,7 @@ install.packages("xtable", repos = "http://cran.us.r-project.org")
 library(xtable)
 ```
 
-    Updating HTML index of packages in '.Library'
-    Making 'packages.html' ... done
-
-
-# Linear Regression Model Summary
+# 6.2. Linear Regression Model Summary
 
 
 ```R
