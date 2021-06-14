@@ -378,11 +378,11 @@ edx %>% mutate(date = date(as_datetime(timestamp, origin="1990-01-01"))) %>%
   arrange(-count) %>%
   head(25)
 
-questions <- c("How many different movies are in the edx dataset?",
-                "How many different genres are in the edx dataset?",
-                "How many different titles are in the edx dataset?",
-                "How many different users are in the edx dataset?",
-                "What is the rating of movies per users?"
+questions <- c("Movies are in the edx dataset",
+                "Genres are in the edx dataset.",
+                "Titles are in the edx dataset.",
+                "Users are in the edx dataset.",
+                "Rating of movies per users."
 )
 values_edx <- c(round(n_distinct(edx$movieId),0),
             round(n_distinct(edx$genres),0),
