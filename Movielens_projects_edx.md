@@ -9,12 +9,19 @@ output:
   word_document: default
   pdf_document:
     latex_engine: xelatex
-params:
-  project_intro: Introduction
 ---
 
 
+
+
+
+
+
+
+
                                          Introduction:
+                                         
+                                         
                                         
 <p style='text-align: justify;'> Movielenss is a project developed by GroupLens, a research laboratory at the University of Minnesota. MovieLens provides online movie recommender algorithms, the full data set consists of more de 25 million ratings across more than 40,000 movies by more than 250.000 users, all users selected had rated at least 20 movies, each user is represented by id. 
     This project will predict features and the rating of movies by users using ratings that have been collected for several years by Movilens and thus convert them to algorithms and machine learning models, and then recommend users in their future searches, as a result, verify the performance of algorithms. For the evaluation, the residual mean square error (RMSE) of the predictions will be used and thus compare the real rating of the users. 
@@ -37,7 +44,10 @@ params:
 -  Analysis of the variables
 -  Model Developing Approach
 
+
+
 ## 1. Installing essential Packages and Libraries
+
 
 ```R
 #Install packages
@@ -54,7 +64,9 @@ library(caret)
 library(basictabler)
 ```
 
+
 ## 2. DataSet Downloading
+
 
 <p style='text-align: justify;'> Data set is from the web http://files.grouplens.org/datasets/movielens/ml-10m.zip", and it is stored in temporary file.
 </p>
@@ -89,6 +101,7 @@ movies <- as.data.frame(movies) %>% mutate(movieId = as.numeric(levels(movieId))
 ```R
 movielens <- left_join(ratings, movies, by = "movieId")
 ```
+
 
 ## Split and Validation:
 
@@ -128,6 +141,7 @@ rm(dl, ratings, movies, test_index, temp, movielens, removed)
 validation  <- validation %>% select(-rating)
 ```
 
+
 # 3. Data Cleansing
 
 Verify nan values in Edx validation dataframes:
@@ -143,11 +157,15 @@ print(na_edx, na_validation)
             0         0         0         0         0         0 
 
 
+
+
 # 4. Basic information at Data Set
 
 Acquire information by exploring and analyzing the dataset, understanding the effects of the different variables.
 
+
 # A. How many rows and columns are there in the edx dataset?
+
 
 ```R
 #To see more information about the dataset
@@ -234,6 +252,7 @@ rating_mean
 3.51246397107753
 
 
+
 # B. How many zeros were given as ratings in the edx dataset?
 
 
@@ -259,6 +278,7 @@ print(edx %>% filter(rating == 3) %>% tally())
 	<tr><td>2121638</td></tr>
 </tbody>
 </table>
+
 
 
 
@@ -289,6 +309,7 @@ print(edx %>% summarize(n_movies = n_distinct(movieId)))
 
 
 
+
 # D. How many different users are in the edx dataset?
 
 
@@ -313,6 +334,7 @@ edx %>% summarize(n_users = n_distinct(userId))
 	<tr><td>69878</td></tr>
 </tbody>
 </table>
+
 
 
 
@@ -398,9 +420,13 @@ paste('Romance has',nrow(romance),'movies')
 'Romance has 1712232 movies'
 
 
-#  E. VARIABLE ANALYSIS BY RATING
+
+#  E. VARIABLE ANALYSIS BY RATING:
+
 
 Find any insights to develop the recommendation model. The qualification is the classification of the information that allows it to be evaluated and valued based on a comparative evaluation of its standard quality or performance, quantity, or its combination. In the Movilens data set, the rating has a numerical ordinal scale of 0.5 to 5 stars from movie viewers. The maximum rating they give 5 stars or less if they do not like the movie.
+
+
 
 # F. Which movie has the greatest number of ratings?
 
@@ -547,6 +573,7 @@ edx %>%  # Ratings Distribution:
 ![png](output_63_1.png)
 
 
+
 # G. What are the five most given ratings in order from most to least?
 
 
@@ -572,6 +599,7 @@ arrange(desc(count))
 	<tr><td>2.0    </td><td> 710998</td></tr>
 </tbody>
 </table>
+
 
 
 
@@ -608,6 +636,8 @@ edx %>%
 
 
 ![png](output_69_0.png)
+
+
 
 
 # 4.2. Plot mean movie ratings given by users
@@ -1027,15 +1057,9 @@ edx %>% mutate(date = date(as_datetime(timestamp, origin="1990-01-01"))) %>%
 
 
 
-# 6. Data Analysis(EDA)
+# 6. Data Analysis:
 
-# Features:
-
-   - Title of the movie.
-   - Year of realse and rated.
-   - Timestamp Information.
-
-    We will verify the division of the database, and thus compare with two graphs that will show us a better classification of the different features
+    We will verify the division or split of the database, and thus compare with two graphs that will show us a better classification of the different features
 
 
 ```R
@@ -1076,7 +1100,7 @@ train_val
 
 
 
-# 6.1 PLOT EDA: Genres and Times Rating
+# 6.1 PLOT Genres and Times Rating
 
 ```R
 edx <- edx %>% separate_rows(genres,sep = "\\|") %>% mutate(value=1)
