@@ -1,6 +1,5 @@
 
 ---
-title: 'Movilens: HarvardX Data Science'
 author: "Monica Bustamante"
 date: "10/07/2021"
 output:
